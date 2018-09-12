@@ -11,6 +11,8 @@ import javax.swing.ScrollPaneConstants;
 import controllers.MainController;
 import controllers.RemoteFilesController;
 import net.miginfocom.swing.MigLayout;
+import javax.swing.JLabel;
+import javax.swing.JButton;
 
 public class MainUI {
 
@@ -50,18 +52,18 @@ public class MainUI {
 		SidebarPanel sidebar = new SidebarPanel(this.controller);
 		frame.getContentPane().add(sidebar, "dock west");
 		
+		JPanel contenedor = new JPanel();
+		frame.getContentPane().add(contenedor, "cell 0 0,grow");
+		contenedor.setLayout(new MigLayout("", "[grow]", "[grow][grow]"));
 		
-		content = new JPanel();
-		frame.getContentPane().add(content, "cell 0 0,grow");
-		content.setLayout(new MigLayout("", "[1px:1px:1px][grow][1px:1px:1px]", "[grow]"));
+		JPanel panelNorth = new JPanel();
+		contenedor.add(panelNorth, "cell 0 0,grow");
 		
-		RemoteFilesController remoteFilesController = new RemoteFilesController(this.controller.getModel());
-		RemoteFilesPanel filesPanel = new RemoteFilesPanel(remoteFilesController); 
-		remoteFilesController.setView(filesPanel);
-		content.add(filesPanel, "cell 1 0,grow");
+		JPanel panelSouth = new JPanel();
+		contenedor.add(panelSouth, "cell 0 1,grow");
 		
-		FooterPanel footer = new FooterPanel();
-		frame.getContentPane().add(footer, "south,aligny center");
+		
+		
 				
 	}
 
