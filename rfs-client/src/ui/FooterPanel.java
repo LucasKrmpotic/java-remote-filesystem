@@ -11,29 +11,46 @@ import net.miginfocom.swing.MigLayout;
 
 @SuppressWarnings("serial")
 public class FooterPanel extends JPanel{
-	
-	private JLabel lblEstadoDeLa;
-	private JTextField txtConectado;
+	private JTextField txtLogueado;
 	private JTextField txtAutenticado;
+	private JTextField txtArchivoslocales;
+	private JTextField txtArchivosremotos;
 	public FooterPanel () {
 		
 		this.setBackground(SystemColor.window);
-		this.setLayout(new MigLayout("fill", "[grow][][][][][][grow]", "[50px:50px:200px,grow 100][][100px:100px:200px,grow 100]"));
-		this.lblEstadoDeLa = new JLabel("Estado de la conexión");
-		this.lblEstadoDeLa.setBounds(0, 0, 220, 24);
-		this.add(lblEstadoDeLa, "cell 1 1");
+		setLayout(new MigLayout("", "[grow][grow][grow][grow][grow]", "[grow][grow]"));
 		this.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
 		
-		this.txtConectado = new JTextField();
-		this.add(txtConectado, "cell 3 1");
-		this.txtConectado.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
-		this.txtConectado.setText("conectado");
-		this.txtConectado.setColumns(10);
+		JLabel lblEstadoDeConexion = new JLabel("Estado de Conexion:");
+		add(lblEstadoDeConexion, "cell 0 0,alignx trailing");
 		
-		this.txtAutenticado = new JTextField();
-		this.add(txtAutenticado, "cell 5 1");
-		this.txtAutenticado.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
-		this.txtAutenticado.setText("autenticado");
-		this.txtAutenticado.setColumns(10);
+		txtLogueado = new JTextField();
+		txtLogueado.setText("Logueado");
+		add(txtLogueado, "cell 1 0,growx");
+		txtLogueado.setColumns(10);
+		
+		JLabel lblAutenticado = new JLabel("Autenticado:");
+		add(lblAutenticado, "cell 2 0,alignx trailing");
+		
+		txtAutenticado = new JTextField();
+		txtAutenticado.setText("Autenticado");
+		add(txtAutenticado, "cell 3 0,growx");
+		txtAutenticado.setColumns(10);
+		
+		JLabel lblArchivosLocalesAbiertos = new JLabel("Archivos Locales Abiertos:");
+		add(lblArchivosLocalesAbiertos, "cell 0 1,alignx trailing");
+		
+		txtArchivoslocales = new JTextField();
+		txtArchivoslocales.setText("archivos_locales");
+		add(txtArchivoslocales, "cell 1 1,growx");
+		txtArchivoslocales.setColumns(10);
+		
+		JLabel lblArchivosRemotosAbiertos = new JLabel("Archivos Remotos Abiertos:");
+		add(lblArchivosRemotosAbiertos, "cell 2 1,alignx trailing");
+		
+		txtArchivosremotos = new JTextField();
+		txtArchivosremotos.setText("archivos_remotos");
+		add(txtArchivosremotos, "cell 3 1,growx");
+		txtArchivosremotos.setColumns(10);
 	}
 }

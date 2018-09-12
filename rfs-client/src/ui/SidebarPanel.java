@@ -17,10 +17,11 @@ public class SidebarPanel extends JPanel{
 	public JButton btnLogin;
 	public JButton btnSignUp;
 	public JButton btnFileTransfer;
+	private JButton btnError;
 	
 	public SidebarPanel(MainController controller) {
 		this.setBackground(SystemColor.window);
-		this.setLayout(new MigLayout("fillx", "[grow,center]", "[grow 30,fill][][][][][grow,fill]"));
+		this.setLayout(new MigLayout("fillx", "[grow,center]", "[grow 30,fill][][][][][][grow,fill]"));
 
 		this.btnConectar = new JButton("Connect");
 		this.btnConectar.setIcon(new ImageIcon(this.getClass().getResource("/ui/icons/rss-symbol.png")));
@@ -54,5 +55,13 @@ public class SidebarPanel extends JPanel{
 		// event handler
 		this.btnFileTransfer.addActionListener(controller);
 		this.btnFileTransfer.setActionCommand("showRemoteFilesPanel");
+		
+		//BOTON ERROR
+		btnError = new JButton("Error");
+		add(btnError, "cell 0 5");
+		this.btnError.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
+		btnError.addActionListener(controller);
+		btnError.setActionCommand("botonError");
+		
 	}	
 }

@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import javax.swing.JOptionPane;
+
 import client.RFSClient;
 import ui.ConnectionPanel;
 import ui.LoginPanel;
@@ -86,6 +88,12 @@ public class MainController implements ActionListener{
 		this.ui.getContentPanel().removeAll();
 		this.ui.getContentPanel().add(filesPanel, "cell 1 0,grow");
 		this.ui.getContentPanel().revalidate();
+		
+	}
+	
+	//Agregado del boton ERROR
+	public void botonError() {
+		JOptionPane.showMessageDialog(null, "Hola... Soy un ERROR ");
 	}
 	
 }
