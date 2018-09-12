@@ -22,7 +22,7 @@ public class SingleRemoteFileController implements ActionListener {
 	
 	public FileMetadata lookUpLocalCopy(String file_name) {
 		
-		return null;
+		return new FileMetadata(file_name);
 	}
 
 }
