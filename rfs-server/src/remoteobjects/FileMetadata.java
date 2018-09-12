@@ -11,20 +11,26 @@ import java.text.SimpleDateFormat;
 
 public class FileMetadata implements Serializable {
 	
+	public static final int CLOSED = 0;
+	public static final int OPENED = 1;
+	
 	private String fileName;
     private String creationTime; 
     private String lastAccessTime; 
     private String lastModifiedTime; 
     private long size;
+    private int status;
     
-    public FileMetadata(File f) {
+    public FileMetadata(File f, String file_name) {
         Path path = f.toPath();
+        this.fileName = file_name;
         try {            
             BasicFileAttributes attr = Files.readAttributes(path, BasicFileAttributes.class);
             this.creationTime = attr.creationTime().toString();
             this.lastAccessTime = attr.lastAccessTime().toString();
             this.lastModifiedTime = attr.lastModifiedTime().toString();
             this.size = attr.size();
+            this.status = CLOSED;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -45,8 +51,18 @@ public class FileMetadata implements Serializable {
 		}
     }
     
-    
+    public String getFileName() {
+    	return this.fileName;
+    }
 
+    public int getStatus(){
+    	return this.status; 
+    }
+    
+    public void setStatus(int status) {
+    	this.status = status;
+    }
+    
     public long getSize(){
         return this.size;
     }
@@ -65,7 +81,7 @@ public class FileMetadata implements Serializable {
 
     private FileTime _getAtrrToFileTime(String attr) {
         try {
-            long milis = new SimpleDateFormat("YYYY-MM-DDThh:mm:ss[.s+]Z").parse(attr).getTime();
+        	long milis = new SimpleDateFormat("YYYY-MM-DD").parse(attr).getTime();
             return FileTime.fromMillis(milis);    
         } catch (Exception e) {
             e.printStackTrace();

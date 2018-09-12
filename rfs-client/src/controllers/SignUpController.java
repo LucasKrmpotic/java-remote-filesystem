@@ -2,22 +2,21 @@ package controllers;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 import client.RFSClient;
-import ui.LoginPanel;
+import ui.SignUpPanel;
 
+public class SignUpController implements ActionListener{
 
-public class LoginController implements ActionListener {
 	
 	private RFSClient model;
-	private LoginPanel view;
+	private SignUpPanel view;
 
-	public LoginController(RFSClient model) {
+	public SignUpController(RFSClient model) {
 		this.model = model;
 	}
 	
-	public void setView(LoginPanel view) {
+	public void setView(SignUpPanel view) {
 		this.view = view;
 	}
 	
@@ -26,10 +25,9 @@ public class LoginController implements ActionListener {
 		
 		String username = this.view.getUsername();
 		String password = this.view.getPassword();
-		this.model.login(username, password);
+		this.model.signUp(username, password);
 		
 	}
 
-	
 	
 }

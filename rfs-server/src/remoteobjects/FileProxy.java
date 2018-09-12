@@ -33,7 +33,7 @@ public class FileProxy {
         this.file = new File(this.file_name);
         if (this.exists()) {
             this.loadOwner();
-            this.metadata = new FileMetadata(this.file);
+            this.metadata = new FileMetadata(this.file, this.file_name);
         }
     }
 

@@ -22,13 +22,43 @@ public class RFSClient {
 	}
 	
 	public void setStub(String hostname, String port) {
-		this.stub = new ClientStub(hostname, Integer.parseInt(port.trim()));
+		try {
+			this.stub = new ClientStub(hostname, Integer.parseInt(port.trim()));
+		} catch (NumberFormatException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
-	public void login(String username, String password) throws ClassNotFoundException, IOException {
-		System.out.println(username);
-		System.out.println(password);
-		this.stub.login(username, password);
+
+	// CONNECT	
+	public void connect(String hostname, String port) {
+		try {
+			this.stub = new ClientStub(hostname, Integer.parseInt(port));
+		} catch (NumberFormatException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(this.stub==null);
+	}	
+
+	
+	// LOGIN	
+	public void login(String username, String password){
+		try {
+			this.stub.login(username, password);
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
+	
+	// CREATE AN ACCOUNT
+	public void signUp(String username, String password) {
+		this.stub.signUp(username, password);
+	}
+
+	
+	
 	
 	public void open(String file_name) throws ClassNotFoundException, IOException, Exception {
 		

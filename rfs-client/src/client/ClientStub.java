@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 import remoteobjects.FileMetadata;
 import remoteobjects.FileProxy;
@@ -25,17 +26,15 @@ public class ClientStub {
 
 	public String archivo_remoto;
 
-	public ClientStub(String hostname, int port) {
-		try {
-			s = new Socket(hostname, port);
-			in = new ObjectInputStream(s.getInputStream());
-			out = new ObjectOutputStream(s.getOutputStream());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public ClientStub(String hostname, int port) throws UnknownHostException, IOException {
 
+		s = new Socket(hostname, port);
+		in = new ObjectInputStream(s.getInputStream());
+		out = new ObjectOutputStream(s.getOutputStream());
 	}
 
+	
+	// LOGIN	
 	public ResponseLogin login(String username, String password) throws IOException, ClassNotFoundException {
 		System.out.println(username);
 		RequestLogin request = new RequestLogin(username, password);
@@ -49,6 +48,15 @@ public class ClientStub {
 		}
 		return (ResponseLogin) response;
 	}
+	
+	
+	// CREATE AN ACCOUNT
+	public void signUp(String username, String password) {
+		
+		
+		
+	}
+	
 	
 	public FileProxy rfs_open(String file_name) throws Exception, IOException, ClassNotFoundException {
 

@@ -44,19 +44,25 @@ public class MainController implements ActionListener{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
-		
 	}
 	
 	public void showConnectionPanel() {
+		ConnectionController controller = new ConnectionController(this.getModel());
+		ConnectionPanel connectionPanel = new ConnectionPanel(controller);
+		controller.setView(connectionPanel);
+		
 		this.ui.getContentPanel().removeAll();
-		this.ui.getContentPanel().add(new ConnectionPanel(), "cell 1 0,grow");
+		this.ui.getContentPanel().add(connectionPanel, "cell 1 0,grow");
 		this.ui.getContentPanel().revalidate();
 	}
 	
 	public void showSignUpPanel() {
+		SignUpController controller = new SignUpController(this.getModel());
+		SignUpPanel signUpPanel = new SignUpPanel(controller);
+		controller.setView(signUpPanel);
+		
 		this.ui.getContentPanel().removeAll();
-		this.ui.getContentPanel().add(new SignUpPanel(), "cell 1 0,grow");
+		this.ui.getContentPanel().add(signUpPanel, "cell 1 0,grow");
 		this.ui.getContentPanel().revalidate();
 	}
 
