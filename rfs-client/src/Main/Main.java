@@ -1,0 +1,53 @@
+package Main;
+
+import java.awt.EventQueue;
+
+import client.RFSClient;
+import controllers.MainController;
+import ui.MainUI;
+
+public class Main {
+
+	private static MainUI view;
+	private static MainController controller;
+	private static RFSClient model;
+	
+	public static MainController getController() {
+		if (controller == null)
+			controller = new MainController();
+		return controller;
+	}
+	
+	public static RFSClient getModel() {
+		if (model == null)
+			model = new RFSClient();
+		return model;
+	}
+	
+	public static MainUI getUI(MainController controller) {
+		if (view == null) {
+			view = new MainUI(controller);
+		}
+		return view;
+	}
+	
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					RFSClient model = getModel();
+					MainController controller = getController(); 
+					MainUI window = getUI(controller);
+					controller.setUI(window);
+					controller.setModel(model);
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+}
