@@ -53,18 +53,24 @@ public class MainController implements ActionListener{
 		this.ui.getContentPanel().add(new ConnectionPanel(), "cell 1 0,grow");
 		this.ui.getContentPanel().revalidate();
 	}
-
-	public void showLoginPanel() {
-		this.ui.getContentPanel().removeAll();
-		this.ui.getContentPanel().add(new LoginPanel(), "cell 1 0,grow");
-		this.ui.getContentPanel().revalidate();
-	}
 	
 	public void showSignUpPanel() {
 		this.ui.getContentPanel().removeAll();
 		this.ui.getContentPanel().add(new SignUpPanel(), "cell 1 0,grow");
 		this.ui.getContentPanel().revalidate();
 	}
+
+	public void showLoginPanel() {
+		
+		LoginController controller = new LoginController(this.getModel());
+		LoginPanel loginPanel = new LoginPanel(controller);
+		controller.setView(loginPanel);
+		
+		this.ui.getContentPanel().removeAll();
+		this.ui.getContentPanel().add(loginPanel, "cell 1 0,grow");
+		this.ui.getContentPanel().revalidate();
+	}
+	
 	
 	public void showRemoteFilesPanel() {
 		RemoteFilesController remoteFilesController = new RemoteFilesController(this.getModel());

@@ -37,6 +37,7 @@ public class ClientStub {
 	}
 
 	public ResponseLogin login(String username, String password) throws IOException, ClassNotFoundException {
+		System.out.println(username);
 		RequestLogin request = new RequestLogin(username, password);
 		out.writeObject(request);
 		RFSCommand response = (RFSCommand) in.readObject();

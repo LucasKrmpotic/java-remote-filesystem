@@ -18,12 +18,15 @@ public class RFSClient {
 	private List<FileMetadata> availableFiles;
 	
 	public RFSClient(){		
-		this.stub = new ClientStub("localhost", 7896);
 		this.remote_files_opened = new ArrayList<FileProxy>();
 	}
 	
-	
+	public void setStub(String hostname, String port) {
+		this.stub = new ClientStub(hostname, Integer.parseInt(port.trim()));
+	}
 	public void login(String username, String password) throws ClassNotFoundException, IOException {
+		System.out.println(username);
+		System.out.println(password);
 		this.stub.login(username, password);
 	}
 	
