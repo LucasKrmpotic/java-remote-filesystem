@@ -25,12 +25,12 @@ public class SingleRemoteFilePanel extends JDialog{
 	private JTextField txtRemoteLastAccessTime;
 	private JTextField txtRemoteCreationTime;
 	private JTextField txtRemoteStatus;
-	private JTextField txtFilename_2;
-	private JTextField txtSize_2;
-	private JTextField txtLastmodified_2;
-	private JTextField txtLastaccesstime;
-	private JTextField txtCreationtime_2;
-	private JTextField txtStatus_2;
+	private JTextField txtLocalFilename;
+	private JTextField txtLocalSize;
+	private JTextField txtLocalLastmodified;
+	private JTextField txtLocalLastaccesstime;
+	private JTextField txtLocalCreationDate;
+	private JTextField txtLocalStatus;
 	private JButton RemoteOpen;
 	private JButton RemoteWrite;
 	private JButton RemoteRead;
@@ -50,17 +50,17 @@ public class SingleRemoteFilePanel extends JDialog{
 		this.controller = controller;
 		this.remote_file = remote_file;
 		
-		FileMetadata local_file = this.getLocalFileMetadata();
-		if (local_file != null)
-			this.local_file = local_file;
+		//FileMetadata local_file = this.getLocalFileMetadata(this.remote_file.getFileName());
+		//if (local_file != null)
+			//this.local_file = local_file;
 		
 		setSize(900, 400);
 		
 		setLocationRelativeTo(owner);
 		this.getContentPane().setLayout(new MigLayout("", "[grow][grow]", "[grow]"));
 
-		
 		this.initialize();
+		
 		setVisible(true);
 		
 	} 
@@ -172,102 +172,109 @@ public class SingleRemoteFilePanel extends JDialog{
 				RemoteClose.addActionListener(this.controller);
 				
 				//Panel Derecho
-				JPanel panel_1 = new JPanel();
-				this.getContentPane().add(panel_1, "cell 1 0,grow");
-				panel_1.setLayout(new MigLayout("", "[grow][][][grow]", "[grow][grow][][][][][][][][][][][]"));
-				panel_1.setVisible(true);
 				
-				JPanel panel_3 = new JPanel();
-				panel_1.add(panel_3, "cell 0 0,grow");
-			
-				JPanel panel_4 = new JPanel();
-				panel_1.add(panel_4, "cell 0 1,grow");
-				panel_4.setLayout(new MigLayout("", "[][][][][]", "[]"));
+				this.setLocalFileMetadata(this.controller.lookUpLocalCopy(this.remote_file.getFileName()));
 				
-				this.LocalOpen = new JButton("Open");
-				this.LocalOpen.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
-				panel_4.add(LocalOpen, "cell 0 0");
+				if(this.local_file != null) {
+					
+					JPanel panel_1 = new JPanel();
+					this.getContentPane().add(panel_1, "cell 1 0,grow");
+					panel_1.setLayout(new MigLayout("", "[grow][][][grow]", "[grow][grow][][][][][][][][][][][]"));
+					panel_1.setVisible(true);
+					
+					JPanel panel_3 = new JPanel();
+					panel_1.add(panel_3, "cell 0 0,grow");
 				
-				this.LocalWrite = new JButton("Write");
-				this.LocalWrite.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
-				panel_4.add(LocalWrite, "cell 1 0");
-				
-				this.LocalRead = new JButton("Read");
-				this.LocalRead.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
-				panel_4.add(LocalRead, "cell 2 0");
-				
-				this.LocalClose = new JButton("Close");
-				this.LocalClose.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
-				panel_4.add(LocalClose, "cell 3 0");
-				panel_3.setLayout(new MigLayout("", "[grow][grow]", "[grow][grow][grow][grow][grow][grow]"));
-				
-				JLabel lblLocalFileName = new JLabel("File Name:");
-				lblLocalFileName.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
-				panel_3.add(lblLocalFileName, "cell 0 0,alignx trailing");
-				
-				txtFilename_2 = new JTextField();
-				txtFilename_2.setText("file_name");
-				txtFilename_2.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
-				panel_3.add(txtFilename_2, "cell 1 0,growx");
-				
-				txtFilename_2.setColumns(10);
-				
-				JLabel lblRemoteSizeder = new JLabel("Size:");
-				lblRemoteSizeder.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
-				panel_3.add(lblRemoteSizeder, "cell 0 1,alignx trailing");
-				
-				txtSize_2 = new JTextField();
-				txtSize_2.setText("size");
-				txtSize_2.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
-				panel_3.add(txtSize_2, "cell 1 1,growx");
-				txtSize_2.setColumns(10);
-				
-				JLabel lblLastModifiedder = new JLabel("Last Modified:");
-				lblLastModifiedder.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
-				panel_3.add(lblLastModifiedder, "cell 0 2,alignx trailing");
-				
-				txtLastmodified_2 = new JTextField();
-				txtLastmodified_2.setText("last_modified");
-				txtLastmodified_2.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
-				panel_3.add(txtLastmodified_2, "cell 1 2,growx");
-				txtLastmodified_2.setColumns(10);
-				
-				JLabel lblLastAccessTiemeder = new JLabel("Last Access Tieme:");
-				lblLastAccessTiemeder.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
-				panel_3.add(lblLastAccessTiemeder, "cell 0 3,alignx trailing");
-				
-				txtLastaccesstime = new JTextField();
-				txtLastaccesstime.setText("last_access_time");
-				txtLastaccesstime.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
-				panel_3.add(txtLastaccesstime, "cell 1 3,growx");
-				txtLastaccesstime.setColumns(10);
-				
-				JLabel lblCreationder = new JLabel("Creation Time:");
-				lblCreationder.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
-				panel_3.add(lblCreationder, "cell 0 4,alignx trailing");
-				
-				txtCreationtime_2 = new JTextField();
-				txtCreationtime_2.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
-				txtCreationtime_2.setText("creation_time");
-				panel_3.add(txtCreationtime_2, "cell 1 4,growx");
-				txtCreationtime_2.setColumns(10);
-				
-				JLabel lblStatusder = new JLabel("Status:");
-				lblStatusder.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
-				panel_3.add(lblStatusder, "cell 0 5,alignx trailing");
-				
-				txtStatus_2 = new JTextField();
-				txtStatus_2.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
-				txtStatus_2.setText("status");
-				panel_3.add(txtStatus_2, "cell 1 5,growx");
-				txtStatus_2.setColumns(10);
-				
-				//Manejo de Eventos
-				SingleRemoteFileController eventder = new SingleRemoteFileController();
-				LocalOpen.addActionListener(eventder);
-				LocalWrite.addActionListener(eventder);
-				LocalRead.addActionListener(eventder);
-				RemoteClose.addActionListener(eventder);
+					JPanel panel_4 = new JPanel();
+					panel_1.add(panel_4, "cell 0 1,grow");
+					panel_4.setLayout(new MigLayout("", "[][][][][]", "[]"));
+					
+					this.LocalOpen = new JButton("Open");
+					this.LocalOpen.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
+					panel_4.add(LocalOpen, "cell 0 0");
+					
+					this.LocalWrite = new JButton("Write");
+					this.LocalWrite.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
+					panel_4.add(LocalWrite, "cell 1 0");
+					
+					this.LocalRead = new JButton("Read");
+					this.LocalRead.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
+					panel_4.add(LocalRead, "cell 2 0");
+					
+					this.LocalClose = new JButton("Close");
+					this.LocalClose.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
+					panel_4.add(LocalClose, "cell 3 0");
+					panel_3.setLayout(new MigLayout("", "[grow][grow]", "[grow][grow][grow][grow][grow][grow]"));
+					
+					JLabel lblLocalFileName = new JLabel("File Name:");
+					lblLocalFileName.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
+					panel_3.add(lblLocalFileName, "cell 0 0,alignx trailing");
+					
+					txtLocalFilename = new JTextField(local_file.getFileName());
+					txtLocalFilename.setText("file_name");
+					txtLocalFilename.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
+					panel_3.add(txtLocalFilename, "cell 1 0,growx");
+					
+					txtLocalFilename.setColumns(10);
+					
+					JLabel lblRemoteSizeder = new JLabel("Size:");
+					lblRemoteSizeder.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
+					panel_3.add(lblRemoteSizeder, "cell 0 1,alignx trailing");
+					
+					txtLocalSize = new JTextField(Long.toString(local_file.getSize()));
+					txtLocalSize.setText("size");
+					txtLocalSize.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
+					panel_3.add(txtLocalSize, "cell 1 1,growx");
+					txtLocalSize.setColumns(10);
+					
+					JLabel lblLastModifiedder = new JLabel("Last Modified:");
+					lblLastModifiedder.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
+					panel_3.add(lblLastModifiedder, "cell 0 2,alignx trailing");
+					
+					txtLocalLastmodified = new JTextField(local_file.getLastModifiedTime().toString());
+					txtLocalLastmodified.setText("last_modified");
+					txtLocalLastmodified.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
+					panel_3.add(txtLocalLastmodified, "cell 1 2,growx");
+					txtLocalLastmodified.setColumns(10);
+					
+					JLabel lblLastAccessTiemeder = new JLabel("Last Access Tieme:");
+					lblLastAccessTiemeder.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
+					panel_3.add(lblLastAccessTiemeder, "cell 0 3,alignx trailing");
+					
+					txtLocalLastaccesstime = new JTextField(local_file.getLastAccessTime().toString());
+					txtLocalLastaccesstime.setText("last_access_time");
+					txtLocalLastaccesstime.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
+					panel_3.add(txtLocalLastaccesstime, "cell 1 3,growx");
+					txtLocalLastaccesstime.setColumns(10);
+					
+					JLabel lblCreationder = new JLabel("Creation Time:");
+					lblCreationder.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
+					panel_3.add(lblCreationder, "cell 0 4,alignx trailing");
+					
+					txtLocalCreationDate = new JTextField(local_file.getCreationDate().toString());
+					txtLocalCreationDate.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
+					txtLocalCreationDate.setText("creation_time");
+					panel_3.add(txtLocalCreationDate, "cell 1 4,growx");
+					txtLocalCreationDate.setColumns(10);
+					
+					JLabel lblStatusder = new JLabel("Status:");
+					lblStatusder.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
+					panel_3.add(lblStatusder, "cell 0 5,alignx trailing");
+					
+					txtLocalStatus = new JTextField(local_file.getStatus());
+					txtLocalStatus.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
+					txtLocalStatus.setText("status");
+					panel_3.add(txtLocalStatus, "cell 1 5,growx");
+					txtLocalStatus.setColumns(10);
+					
+					//Manejo de Eventos
+					SingleRemoteFileController eventder = new SingleRemoteFileController();
+					LocalOpen.addActionListener(eventder);
+					LocalWrite.addActionListener(eventder);
+					LocalRead.addActionListener(eventder);
+					RemoteClose.addActionListener(eventder);
+	
+				}
 	}
 
 	void closez(){
