@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.UUID;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -18,35 +19,53 @@ import java.nio.file.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class FileProxy {
-    private String file_name;
+public class FileProxy implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private File file;
+
+//	private FileOutputStream fileOutputStream;
+//	private FileInputStream fileInputStream;
+	
+	private String file_name;
     private String owner;
     private String file_id;
-    private File file;
     private int file_length;
     public byte[] file_buffer;
     private FileMetadata metadata;
-    public static final String csvFile = "server.objetosremotos/fileowners.csv";
+    public static final String csvFile = "src/models/fileowners.csv";
 
-    public FileProxy(String file_name) {
+    public FileProxy(String file_name) throws IOException {
         this.file_name = file_name;
         this.file = new File(this.file_name);
-        if (this.exists()) {
-            this.loadOwner();
-            this.metadata = new FileMetadata(this.file, this.file_name);
-        }
+//        this.fileInputStream =  this.getFileInputStream();
+//        this.fileOutputStream = this.getFileOutputStream();
+//        if (this.exists()) {
+//            this.loadOwner();
+//            this.metadata = new FileMetadata(this.file, this.file_name);
+//        }else {
+//        	this.file.createNewFile();
+//        }
     }
 
-    public FileProxy(String file_name, String owner){
-        this (file_name);
-        this.owner = owner;
-    }
-
-    public FileProxy(String file_name, String owner, int file_length){
-        this (file_name, owner);
-        this.file_length = file_length;
-    }
-
+    
+//    public FileOutputStream getFileOutputStream() throws FileNotFoundException {
+//    	if (this.fileOutputStream == null) {
+//    		this.fileOutputStream = new FileOutputStream(this.getFile(), true);
+//    	}
+//    	return this.getFileOutputStream();
+//    }
+    
+//    public FileInputStream getFileInputStream() throws FileNotFoundException {
+//    	if(this.fileInputStream == null) {
+//    		this.fileInputStream = new FileInputStream(this.getFile()); 
+//    	}
+//    	return this.getFileInputStream();
+//    }
+    
     public void fileBufferInitialize(){
         if (this.file_buffer == null)
             this.file_buffer = new byte[1024];
@@ -65,6 +84,8 @@ public class FileProxy {
         return this.owner.equals(userID);
     }
 
+    
+    
     public void loadOwner (){
         String csvFile = this.csvFile;
         String line = "";
@@ -85,6 +106,8 @@ public class FileProxy {
         } 
     }
 
+    
+    
     public FileTime getLastModified() throws IOException{
         return this.getMetadata().getLastModifiedTime();
     }

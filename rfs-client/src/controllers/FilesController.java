@@ -37,13 +37,15 @@ public class FilesController implements ActionListener{
 		int evento = jfc.showOpenDialog(this.getView());
 		System.out.println(evento);
 		if(evento == JFileChooser.APPROVE_OPTION) {
-			System.out.println("ACEPTAR");
 			File fichero = jfc.getSelectedFile();
 			String file_name = jfc.getName(fichero);
-			System.out.println("Archivo: "+file_name+"   "+"Ruta: "+fichero);
+			
+			
+			// TODO: acá puede ser un lugar donde controlar el hash
+			this.model.writeFileToServer(fichero);
+			
+			
 			this.getView().getTxtFiletext().setText(fichero.getAbsolutePath());
-		}else {
-			System.out.println("CANCELAR");
 		}
 	}
 

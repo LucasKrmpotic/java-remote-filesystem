@@ -6,6 +6,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Arrays;
 
 import org.omg.CORBA.portable.OutputStream;
 
@@ -16,9 +17,11 @@ import remoteobjects.RequestLogin;
 import remoteobjects.RequestOpen;
 import remoteobjects.RequestRead;
 import remoteobjects.RequestSignUp;
+import remoteobjects.RequestWrite;
 import remoteobjects.ResponseLogin;
 import remoteobjects.ResponseOpen;
 import remoteobjects.ResponseRead;
+import remoteobjects.ResponseWrite;
 
 import java.lang.System;
 
@@ -64,9 +67,24 @@ public class ClientStub {
 	}
 	
 	
-	public FileProxy rfs_open(String file_name) throws Exception, IOException, ClassNotFoundException {
+//	public void rfs_open(String file_name) {
+//		System.out.println(file_name);
+//	}
+	
+	
+	public void rfs_write(String file_name) {
+		System.out.println(file_name);
+	}
+	
+	public void rfs_close(String file_name) {
+		System.out.println(file_name);
+	}
+	
+	
+	public FileProxy rfs_open(String file_name, String user_token) throws Exception, IOException, ClassNotFoundException {
 
 		RequestOpen request = new RequestOpen(file_name);
+		request.setUserToken(user_token);
 		out.writeObject(request);
 		ResponseOpen response = (ResponseOpen) in.readObject();
 
@@ -74,12 +92,7 @@ public class ClientStub {
 			throw new Exception(response.getErrorMessaage());
 		}
 
-		FileProxy file = new FileProxy(response.getFileName());
-		file.setFileId(response.getFileId());
-
-		if (response.getMetadata() != null){
-			file.setMetadata((FileMetadata) response.getMetadata());
-		}
+		FileProxy file = response.getFile();
 		return file;
 	}
 
@@ -99,16 +112,20 @@ public class ClientStub {
 
 	}
 
-	public void rfs_wrtite(String file_name, byte[] contenido, int count) throws IOException, ClassNotFoundException {
+	
+	public void rfs_wrtite(FileProxy remoteFile, byte[] contenido, int count) throws IOException, ClassNotFoundException {
 
-//		RFSWrite peticion = new RFSWrite(file_name, count, contenido);
-//		out.writeObject(peticion);
-//
-//		RFSWrite respuesta = (RFSWrite)in.readObject();
+		RequestWrite request = new RequestWrite(remoteFile, count);
+		request.file_content = Arrays.copyOf(contenido, count);
+		out.writeObject(request);
 
+		RFSCommand respuesta = (RFSCommand)in.readObject();
+		if (respuesta.error) {
+			System.out.println(respuesta.getErrorMessaage());
+		}
 	}
 
-	public void rfs_close(File archivo_remoto) throws IOException, ClassNotFoundException {
+//	public void rfs_close(File archivo_remoto) throws IOException, ClassNotFoundException {
 
 //		RFSClose obj_remoto = new RFSClose(archivo_remoto);
 //
@@ -117,7 +134,7 @@ public class ClientStub {
 //		RFSClose archivo = (RFSClose) in.readObject();
 
 		// return archivo.cerrado;
-	}
+//	}
 	
 	
 	

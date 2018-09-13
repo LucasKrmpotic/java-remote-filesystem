@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 import remoteobjects.FileProxy;
 import remoteobjects.RFSCommand;
@@ -21,28 +22,28 @@ public class RFSClient {
 	public ArrayList<FileProxy> remote_files_opened; 
 	private List<FileMetadata> availableFiles;
 	
-	public RFSClient() throws UnknownHostException, IOException{	
-//		this.stub = new ClientStub("localhost", 7896);
+	public RFSClient() throws UnknownHostException, IOException{
 		this.remote_files_opened = new ArrayList<FileProxy>();
 		this.availableFiles = new ArrayList<FileMetadata>();
 	}
 	
+	
+    public FileProxy getOpenedFile(String id, String file_name){
+        FileProxy result = null;
+        for (FileProxy f : this.remote_files_opened) {
+            if (f.getFileId().equals(id) && f.getFileName().equals(file_name)){
+                result = f;
+                break;
+            }
+        }
+        return result;        
+    }
 
 	// CONNECT	
 	public void connect(String hostname, String port) throws NumberFormatException, UnknownHostException, IOException, Exception {
 		stub = this.getStub(hostname, Integer.parseInt(port));
 		this.connected = true;
 	}	
-
-	public boolean getStatus() {
-		return this.connected;
-	}
-	public ClientStub getStub(String hostname, int port) throws UnknownHostException, IOException {
-		if(stub == null) {
-			stub = new ClientStub(hostname, port);
-		}
-		return stub;
-	}
 	
 	// LOGIN	
 	public void login(String username, String password) throws ClassNotFoundException, IOException{
@@ -54,7 +55,7 @@ public class RFSClient {
 			this.setAvailableFiles(response.getAvailableFiles());
 	}
 	
-	// CREATE AN ACCOUNT
+	// SIGNUP
 	public void signUp(String username, String password) throws Exception {
 		RFSCommand response = stub.signUp(username, password);
 		if (response.error) {
@@ -63,12 +64,44 @@ public class RFSClient {
 		this.setUserToken(response.getUserToken());
 	}
 	
-	public void open(String file_name) throws ClassNotFoundException, IOException, Exception {
+	
+	
+	
+	// WRITE FILE TO SERVER 
+	public void writeFileToServer(File file) {
 		
-		FileProxy file = stub.rfs_open(file_name);
 		
-		System.out.println(file.getFileName());
-		remote_files_opened.add(file);
+		try {
+			FileProxy remote_file = this.open(file.getName(), this.getUserToken());
+			
+			if( remote_file != null) {
+				
+				this.write(file, remote_file);
+			} else {
+				System.out.println("no se pudo abrir el archivo");
+			}
+					
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	public FileProxy open(String file_name, String user_token) throws ClassNotFoundException, IOException, Exception {
+		
+		FileProxy file = stub.rfs_open(file_name, user_token);
+		if (file == null) 
+			return null;
+		
+		this.remote_files_opened.add(file);
+		return file;
 	}
 	
 	public void read(FileProxy file) throws ClassNotFoundException, Exception {
@@ -82,18 +115,17 @@ public class RFSClient {
 		out.write(buffer, 0, count);	
 	}
 	
-	public void write(String file_name) throws ClassNotFoundException, IOException {
-		byte[] buffer = new byte[1024];
+	public void write(File file, FileProxy remoteFile) throws ClassNotFoundException, IOException {
+		
+		if (file.exists() && !file.isDirectory()){
 
-		File f = new File(file_name);
-
-		if (f.exists() && !f.isDirectory()){
-			byte[] buf = new byte[1024];
-
-			FileInputStream fi = new FileInputStream(f);
-			int count = fi.read(buffer);
-
-			stub.rfs_wrtite(file_name, buffer, count);
+			System.out.println("existe y no es directorio");
+			byte[] buffer = new byte[1024];
+			
+			FileInputStream fi = new FileInputStream(file);
+			int count = 0;
+			while ((count = fi.read(buffer)) != -1)
+				stub.rfs_wrtite(remoteFile, buffer, count);
 		}		
 	}
 	
@@ -117,6 +149,16 @@ public class RFSClient {
 		if (this.availableFiles.isEmpty()) {
 			availableFiles = new ArrayList<FileMetadata>(files);
 		}
+	}
+	
+	public boolean getStatus() {
+		return this.connected;
+	}
+	public ClientStub getStub(String hostname, int port) throws UnknownHostException, IOException {
+		if(stub == null) {
+			stub = new ClientStub(hostname, port);
+		}
+		return stub;
 	}
 	
 }

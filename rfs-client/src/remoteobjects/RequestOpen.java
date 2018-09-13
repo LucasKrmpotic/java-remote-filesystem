@@ -30,27 +30,20 @@ public class RequestOpen extends RFSCommand{
         this (file_name, IRFSConstants.OPEN_O_CREAT, "open");
     }
 
-    public ResponseOpen exec(Object server) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException{
+    public RFSCommand exec(Object server) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException{
     
-        FileProxy file = new FileProxy(this.file_name);
-        if ((
-                this.getMode() == IRFSConstants.OPEN && 
-                file.exists() && 
-                file.isOwner(this.getUserToken())
-            
-            )|| this.getMode() == IRFSConstants.OPEN_O_CREAT){
-                
-            Method method = server.getClass().getMethod(this.getMethodName(), FileProxy.class);
-            method.invoke(server, file);
+        Method method = server.getClass().getMethod(this.getMethodName(), String.class, int.class, String.class);
+        FileProxy file = (FileProxy) method.invoke(server, this.file_name, this.mode, this.getUserToken());
 
-            ResponseOpen response = new ResponseOpen(file.getFileName(), file.getFileId());
-
-            if (file.getMetadata() != null){
-                response.setMetadata((FileMetadata) file.getMetadata());
-            }
-            return response;
-        } 
-        return null;
+        if (file == null) {
+        	RFSCommand error = new RFSCommand();
+        	error.setError(true);
+        	error.setErrorMessage("no se pudo abrir el archivo");
+        	return error;
+        }
+        
+        ResponseOpen response = new ResponseOpen(file);
+        return response;
     }
 
     public String getFileName(){

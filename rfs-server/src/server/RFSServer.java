@@ -15,6 +15,7 @@ import models.UserModel;
 import models.FileModel;
 import remoteobjects.FileMetadata;
 import remoteobjects.FileProxy;
+import remoteobjects.IRFSConstants;
 import remoteobjects.RFSCommand;
 import remoteobjects.ResponseLogin;
 
@@ -36,8 +37,6 @@ public class RFSServer {
                 result = f;
                 break;
             }
-            System.out.println(f.getFileName());
-            System.out.println(f.getFileId());
         }
         return result;        
     }
@@ -62,11 +61,26 @@ public class RFSServer {
     	return this.user.getUID();
     }
     
-	public void open(FileProxy file) {
-
-        file.setFileId(UUID.randomUUID().toString());
-        this.remote_files_opened.add(file);
-        
+	public FileProxy open(String file_name, int mode, String user_token) {
+		FileProxy file;
+		try {
+			file = new FileProxy(file_name);
+			if ((
+					mode == IRFSConstants.OPEN && 
+					file.exists() && 
+					file.isOwner(user_token)
+					
+					)|| mode == IRFSConstants.OPEN_O_CREAT) {
+				file.setFileId(UUID.randomUUID().toString());
+				this.remote_files_opened.add(file);
+				return file;
+			} 
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}        
+        return null;
     }
 		
     public void read( FileProxy file ) throws IOException{
@@ -80,13 +94,10 @@ public class RFSServer {
     }
 	
 	
-	public void write (String file_name, int count, byte[] data) throws IOException {
-        
-        String path = "servidor-"+ file_name; 
-        File f = new File(path);
-        f.createNewFile();
-        FileOutputStream out = new FileOutputStream(f);
-        out.write(data, 0, count);
+	public void write (FileProxy file, int count, byte[] data) throws IOException {		
+//		file.getFileOutputStream().write(data);
+		FileOutputStream out = new FileOutputStream(file.getFile(), true);
+		out.write(data);
 	}
         
 	
