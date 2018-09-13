@@ -31,6 +31,7 @@ public class RemoteFilesPanel extends ScrollPane{
         this.panel = new JPanel(new MigLayout());
         this.panel.setBackground(Color.WHITE);
         int count = 0;
+        panel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "ARCHIVOS LOCALES", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Calibri", 1, 14), new java.awt.Color(0, 0, 0)));
         
         for (FileMetadata fileMetadata : available_remote_files) {
             ImageIcon icon = getIcone(getExtension(fileMetadata.getFileName().toLowerCase()));
