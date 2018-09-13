@@ -36,6 +36,7 @@ public class LoginController implements ActionListener {
 			JOptionPane.showMessageDialog(new JFrame(), "Login succeded", "Conection Success!!", JOptionPane.INFORMATION_MESSAGE);
 			
 		} catch (Exception e) {
+			e.printStackTrace();
 			JOptionPane.showMessageDialog(new ErrorPanel(e.toString()), e.toString(), "Conection Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}

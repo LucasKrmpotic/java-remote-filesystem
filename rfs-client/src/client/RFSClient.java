@@ -22,6 +22,7 @@ public class RFSClient {
 	public RFSClient() throws UnknownHostException, IOException{	
 //		this.stub = new ClientStub("localhost", 7896);
 		this.remote_files_opened = new ArrayList<FileProxy>();
+		this.availableFiles = new ArrayList<FileMetadata>();
 	}
 	
 
