@@ -58,14 +58,16 @@ public class RemoteFilesController implements ActionListener{
 //	}
 	
 	public List<FileMetadata> getAvailableFiles(){
-		String dir = "src/controllers/";
-		this.files.add(new FileMetadata(new File(dir+"arch.txt"), "arch.txt"));
-		this.files.add(new FileMetadata(new File(dir+"curriculum-sin-cert.pdf"), "curriculum-sin-cert.pdf"));
-		this.files.add(new FileMetadata(new File(dir+"inscripciones.xlsx"),"inscripciones.xlsx"));
-		this.files.add(new FileMetadata(new File(dir+"martin-fierro.jpg"), "martin-fierro.jpg"));
-		this.files.add(new FileMetadata(new File(dir+"TP1-SD.docx"),"TP1-SD.docx"));
+//		String dir = "src/controllers/";
+//		this.files.add(new FileMetadata(new File(dir+"arch.txt"), "arch.txt"));
+//		this.files.add(new FileMetadata(new File(dir+"curriculum-sin-cert.pdf"), "curriculum-sin-cert.pdf"));
+//		this.files.add(new FileMetadata(new File(dir+"inscripciones.xlsx"),"inscripciones.xlsx"));
+//		this.files.add(new FileMetadata(new File(dir+"martin-fierro.jpg"), "martin-fierro.jpg"));
+//		this.files.add(new FileMetadata(new File(dir+"TP1-SD.docx"),"TP1-SD.docx"));
+//		
+//		return files;
 		
-		return files;
+		return this.getModel().getAvailableFiles();
 		
 	}
 }

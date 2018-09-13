@@ -14,6 +14,7 @@ import javax.swing.JTextField;
 
 import client.RFSClient;
 import ui.ConnectionPanel;
+import ui.FilesPanel;
 import ui.LoginPanel;
 import ui.MainUI;
 import ui.RemoteFilesPanel;
@@ -45,6 +46,10 @@ public class MainController implements ActionListener{
 	
 	public void setUI(MainUI view) {
 		this.ui = view;
+	}
+	
+	public MainUI getView() {
+		return this.ui;
 	}
 	
 	public boolean isUserLoggedIn() {
@@ -98,56 +103,45 @@ public class MainController implements ActionListener{
 	
 	
 	public void showRemoteFilesPanel() {
-		this.ui.getContentPanel().setVisible(true);
-//		RemoteFilesController remoteFilesController = new RemoteFilesController(this.getModel());
-//		
-//		this.ui.getContentPanel().removeAll();
-//		JPanel rmtPanel = new JPanel();
-//		this.ui.getContentPanel().add(rmtPanel, "cell 1 0,grow");
-//		rmtPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "ARCHIVOS REMOTOS", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Calibri", 1, 14), new java.awt.Color(0, 0, 0)));
-//        
-//		this.txtFiletext = new JTextField();
-//		this.txtFiletext.setText("file_text");
-//		rmtPanel.add(txtFiletext);
-//		this.txtFiletext.setColumns(10);
-//		
-//		this.btnTransferirArchivos = new JButton("Transferir Archivos");
-//		rmtPanel.add(btnTransferirArchivos);
-//		btnTransferirArchivos.addActionListener(this);
-//		btnTransferirArchivos.setActionCommand("showJFC");
-//		
-//		RemoteFilesPanel filesPanel = new RemoteFilesPanel(remoteFilesController); 
-//		remoteFilesController.setView(filesPanel);
-//		this.ui.getContentPanel().add(filesPanel, "cell 1 1,grow");
-//		
-//		
-//		this.ui.getContentPanel().revalidate();
 		
-	}
-	
-	//Agregado del boton ERROR
-	public void botonError() {
-		JOptionPane.showMessageDialog(null, "Hola... Soy un ERROR ");
-	}
-	
-	//Boton del Chooser
-	public void showJFC() {
-		JFileChooser jfc = new JFileChooser();
-		
+		this.ui.getContentPanel().removeAll();
 
-		jfc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-		int evento = jfc.showOpenDialog(this.ui.getContentPanel());
-		System.out.println(evento);
-		if(evento == JFileChooser.APPROVE_OPTION) {
-			System.out.println("ACEPTAR");
-			File fichero = jfc.getSelectedFile();
-			String file_name = jfc.getName(fichero);
-			System.out.println("Archivo: "+file_name+"   "+"Ruta: "+fichero);
-			this.ui.gettxtFiletext().setText(fichero.getAbsolutePath());
-		}else {
-			System.out.println("CANCELAR");
-		}
+		FilesController filesController = new FilesController(this.getModel());
+		FilesPanel filesPanel = new FilesPanel(filesController);
+		filesController.setView(filesPanel);
+		
+		RemoteFilesController remoteFilesController = new RemoteFilesController(this.getModel());
+		RemoteFilesPanel remoteFilesPanel = new RemoteFilesPanel(remoteFilesController); 
+		remoteFilesController.setView(remoteFilesPanel);
+	
+		this.getView().getContentPanel().add(filesPanel, "cell 1 0,grow");
+		this.getView().getContentPanel().add(remoteFilesPanel, "cell 1 1,grow");
+		this.ui.getContentPanel().revalidate();	
 	}
+	
+//	//Agregado del boton ERROR
+//	public void botonError() {
+//		JOptionPane.showMessageDialog(null, "Hola... Soy un ERROR ");
+//	}
+	
+//	//Boton del Chooser
+//	public void showJFC() {
+//		JFileChooser jfc = new JFileChooser();
+//		
+//
+//		jfc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+//		int evento = jfc.showOpenDialog(this.ui.getContentPanel());
+//		System.out.println(evento);
+//		if(evento == JFileChooser.APPROVE_OPTION) {
+//			System.out.println("ACEPTAR");
+//			File fichero = jfc.getSelectedFile();
+//			String file_name = jfc.getName(fichero);
+//			System.out.println("Archivo: "+file_name+"   "+"Ruta: "+fichero);
+//			this.ui.gettxtFiletext().setText(fichero.getAbsolutePath());
+//		}else {
+//			System.out.println("CANCELAR");
+//		}
+//	}
 
 	public boolean getStatus() {
 		// TODO Auto-generated method stub

@@ -59,35 +59,10 @@ public class MainUI {
 		SidebarPanel sidebar = new SidebarPanel(this.controller);
 		frame.getContentPane().add(sidebar, "dock west");
 		
-		
 		content = new JPanel();
 		frame.getContentPane().add(content, "cell 0 0,grow");
 		content.setLayout(new MigLayout("", "[1px:1px:1px][grow][1px:1px:1px]", "[grow]"));
 		
-		contenedor = new JPanel();
-		content.add(contenedor, "cell 1 0,grow");
-		contenedor.setLayout(new MigLayout("", "[1px:1px:1px][grow][1px:1px:1px]", "[grow][grow]"));
-		
-		RemoteFilesController remoteFilesController = new RemoteFilesController(this.controller.getModel());
-		
-		JPanel rmtPanel = new JPanel();
-		contenedor.add(rmtPanel, "cell 1 0,grow");
-		rmtPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "ARCHIVOS REMOTOS", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Calibri", 1, 14), new java.awt.Color(0, 0, 0)));
-        
-		txtFiletext = new JTextField();
-		txtFiletext.setText("file_text");
-		rmtPanel.add(txtFiletext);
-		txtFiletext.setColumns(10);
-		
-		this.btnTransferirArchivos = new JButton("Transferir Archivos");
-		rmtPanel.add(btnTransferirArchivos);
-		btnTransferirArchivos.addActionListener(controller);
-		btnTransferirArchivos.setActionCommand("showJFC");
-		
-		RemoteFilesPanel filesPanel = new RemoteFilesPanel(remoteFilesController); 
-		remoteFilesController.setView(filesPanel);
-		contenedor.add(filesPanel, "cell 1 1,grow");
-
 		FooterPanel footer = new FooterPanel(this.controller);
 		frame.getContentPane().add(footer, "south,aligny center");
 				

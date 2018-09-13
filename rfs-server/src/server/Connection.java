@@ -1,5 +1,6 @@
 package server;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -55,10 +56,10 @@ public class Connection extends Thread {
 				}
 
 			}
+
 			out.close();
 			in.close();
 			socketCliente.close();
-
 		} catch (Exception e) {
 			//TODO: handle exception
 			e.printStackTrace();

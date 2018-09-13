@@ -56,12 +56,5 @@ public class SidebarPanel extends JPanel{
 		this.btnFileTransfer.addActionListener(controller);
 		this.btnFileTransfer.setActionCommand("showRemoteFilesPanel");
 		
-		//BOTON ERROR
-		btnError = new JButton("Error");
-		add(btnError, "cell 0 5");
-		this.btnError.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
-		btnError.addActionListener(controller);
-		btnError.setActionCommand("botonError");
-		
 	}	
 }

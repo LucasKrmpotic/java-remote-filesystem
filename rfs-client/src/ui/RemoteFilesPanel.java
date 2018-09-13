@@ -4,6 +4,7 @@ import controllers.RemoteFilesController;
 import remoteobjects.FileMetadata;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.ScrollPane;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,14 @@ public class RemoteFilesPanel extends ScrollPane{
         this.panel = new JPanel(new MigLayout());
         this.panel.setBackground(Color.WHITE);
         int count = 0;
-        panel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "ARCHIVOS LOCALES", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Calibri", 1, 14), new java.awt.Color(0, 0, 0)));
+        panel.setBorder(javax.swing.BorderFactory.createTitledBorder(
+        		null, 
+        		"ARCHIVOS DISPONIBLES EN EL SERVIDOR", 
+        		javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, 
+        		javax.swing.border.TitledBorder.DEFAULT_POSITION, 
+        		new java.awt.Font("DejaVu Sans", Font.PLAIN, 18), 
+        		new java.awt.Color(0, 0, 0))
+        	);
         
         for (FileMetadata fileMetadata : available_remote_files) {
             ImageIcon icon = getIcone(getExtension(fileMetadata.getFileName().toLowerCase()));

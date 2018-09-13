@@ -26,9 +26,9 @@ public class FileMetadata implements Serializable {
         this.fileName = file_name;
         try {            
             BasicFileAttributes attr = Files.readAttributes(path, BasicFileAttributes.class);
-            this.creationTime = attr.creationTime().toString();
-            this.lastAccessTime = attr.lastAccessTime().toString();
-            this.lastModifiedTime = attr.lastModifiedTime().toString();
+            this.creationTime = this._getAttrToString(attr.creationTime());
+            this.lastAccessTime = this._getAttrToString(attr.lastAccessTime());
+            this.lastModifiedTime = this._getAttrToString(attr.lastModifiedTime());
             this.size = attr.size();
             this.status = CLOSED;
         } catch (Exception e) {
@@ -42,9 +42,9 @@ public class FileMetadata implements Serializable {
     	Path path = f.toPath();
     	try {
             BasicFileAttributes attr = Files.readAttributes(path, BasicFileAttributes.class);
-            this.creationTime = attr.creationTime().toString();
-            this.lastAccessTime = attr.lastAccessTime().toString();
-            this.lastModifiedTime = attr.lastModifiedTime().toString();
+            this.creationTime = this._getAttrToString(attr.creationTime());
+            this.lastAccessTime = this._getAttrToString(attr.lastAccessTime());
+            this.lastModifiedTime = this._getAttrToString(attr.lastModifiedTime());
             this.size = attr.size();
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -81,13 +81,18 @@ public class FileMetadata implements Serializable {
 
     private FileTime _getAtrrToFileTime(String attr) {
         try {
-        	long milis = new SimpleDateFormat("YYYY-MM-DD").parse(attr).getTime();
+        	long milis = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(attr).getTime();
             return FileTime.fromMillis(milis);    
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
-        
-       
     }
+    
+    
+    private String _getAttrToString(FileTime attr) {
+    	return new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format((attr.toMillis()));
+    }
+    
+//    pritave String _getAtrrTo
 }
