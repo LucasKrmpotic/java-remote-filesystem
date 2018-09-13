@@ -3,7 +3,11 @@ package controllers;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 import client.RFSClient;
+import ui.ErrorPanel;
 import ui.SignUpPanel;
 
 public class SignUpController implements ActionListener{
@@ -25,7 +29,13 @@ public class SignUpController implements ActionListener{
 		
 		String username = this.view.getUsername();
 		String password = this.view.getPassword();
-		this.model.signUp(username, password);
+		try {
+			this.model.signUp(username, password);
+			JOptionPane.showMessageDialog(new JFrame(), "Signup succeded", "Conection Success!!", JOptionPane.INFORMATION_MESSAGE);
+		} catch (Exception e) {
+//			e.printStackTrace();
+			JOptionPane.showMessageDialog(new ErrorPanel(e.toString()), e.toString(), "Conection Error", JOptionPane.ERROR_MESSAGE);
+		}
 		
 	}
 

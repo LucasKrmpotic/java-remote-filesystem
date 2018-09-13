@@ -9,13 +9,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import remoteobjects.FileProxy;
+import remoteobjects.RFSCommand;
 import remoteobjects.FileMetadata;
 import remoteobjects.ResponseLogin;
 
 public class RFSClient {
 
 	private static ClientStub stub;
-	private String user_token;
+	private String user_token = null;
+	private boolean connected = false;
 	public ArrayList<FileProxy> remote_files_opened; 
 	private List<FileMetadata> availableFiles;
 	
@@ -29,8 +31,12 @@ public class RFSClient {
 	// CONNECT	
 	public void connect(String hostname, String port) throws NumberFormatException, UnknownHostException, IOException, Exception {
 		stub = this.getStub(hostname, Integer.parseInt(port));
+		this.connected = true;
 	}	
 
+	public boolean getStatus() {
+		return this.connected;
+	}
 	public ClientStub getStub(String hostname, int port) throws UnknownHostException, IOException {
 		if(stub == null) {
 			stub = new ClientStub(hostname, port);
@@ -49,8 +55,12 @@ public class RFSClient {
 	}
 	
 	// CREATE AN ACCOUNT
-	public void signUp(String username, String password) {
-		stub.signUp(username, password);
+	public void signUp(String username, String password) throws Exception {
+		RFSCommand response = stub.signUp(username, password);
+		if (response.error) {
+			throw new Exception(response.getErrorMessaage());
+		}
+		this.setUserToken(response.getUserToken());
 	}
 	
 	public void open(String file_name) throws ClassNotFoundException, IOException, Exception {

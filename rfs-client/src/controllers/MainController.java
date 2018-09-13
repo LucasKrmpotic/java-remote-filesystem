@@ -22,7 +22,9 @@ public class MainController implements ActionListener{
 	RFSClient client_model;
 	
 	
-	public MainController() {}
+	public MainController(RFSClient model) {
+		this.client_model = model;
+	}
 	
 	public void setModel(RFSClient model) {
 		this.client_model = model;
@@ -34,6 +36,10 @@ public class MainController implements ActionListener{
 	
 	public void setUI(MainUI view) {
 		this.ui = view;
+	}
+	
+	public boolean isUserLoggedIn() {
+		return this.getModel().getUserToken() != null;
 	}
 	
 	@Override
@@ -115,6 +121,11 @@ public class MainController implements ActionListener{
 		}else {
 			System.out.println("CANCELAR");
 		}
+	}
+
+	public boolean getStatus() {
+		// TODO Auto-generated method stub
+		return this.getModel().getStatus();
 	}
 	
 }

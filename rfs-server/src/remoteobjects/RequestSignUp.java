@@ -19,7 +19,7 @@ public class RequestSignUp extends RFSCommand{
 	    String token =  (String) method.invoke(server, this.username, this.password);
 	    
         if (token != null) {
-        	ResponseLogin response =  new ResponseLogin();
+        	RFSCommand response =  new RFSCommand();
         	response.setUserToken(token);
         	return response;
         }

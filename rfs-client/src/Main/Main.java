@@ -13,9 +13,9 @@ public class Main {
 	private static MainController controller;
 	private static RFSClient model;
 	
-	public static MainController getController() {
+	public static MainController getController(RFSClient model) {
 		if (controller == null)
-			controller = new MainController();
+			controller = new MainController(model);
 		return controller;
 	}
 	
@@ -45,10 +45,10 @@ public class Main {
 			public void run() {
 				try {
 					RFSClient model = getModel();
-					MainController controller = getController(); 
+					MainController controller = getController(model); 
 					MainUI window = getUI(controller);
 					controller.setUI(window);
-					controller.setModel(model);
+//					controller.setModel(model);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

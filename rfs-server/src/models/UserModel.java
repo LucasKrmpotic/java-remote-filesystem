@@ -18,9 +18,9 @@ public class UserModel {
         this.password = password;
     }
 
-    public boolean create () throws IOException{
+    public UserModel create () throws IOException{
         if (!this.exists()){
-
+        	
             FileWriter w = new FileWriter(this.csvFile, true);
             StringBuilder sb = new StringBuilder();
             this.setUID(UUID.randomUUID().toString());
@@ -30,9 +30,10 @@ public class UserModel {
 
             w.append(sb);
             w.close();
-            return true;
+            
+            return this;
         } else {
-            return false;
+            return null;
         }
 
     }

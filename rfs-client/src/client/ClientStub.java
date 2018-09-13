@@ -15,6 +15,7 @@ import remoteobjects.RFSCommand;
 import remoteobjects.RequestLogin;
 import remoteobjects.RequestOpen;
 import remoteobjects.RequestRead;
+import remoteobjects.RequestSignUp;
 import remoteobjects.ResponseLogin;
 import remoteobjects.ResponseOpen;
 import remoteobjects.ResponseRead;
@@ -53,9 +54,12 @@ public class ClientStub {
 	
 	
 	// CREATE AN ACCOUNT
-	public void signUp(String username, String password) {
+	public RFSCommand signUp(String username, String password) throws IOException, ClassNotFoundException {
 		
-		
+		RequestSignUp request = new RequestSignUp(username, password);
+		out.writeObject(request);
+		RFSCommand response = (RFSCommand) in.readObject();
+		return response;
 		
 	}
 	

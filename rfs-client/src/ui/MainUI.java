@@ -88,7 +88,7 @@ public class MainUI {
 		remoteFilesController.setView(filesPanel);
 		contenedor.add(filesPanel, "cell 1 1,grow");
 
-		FooterPanel footer = new FooterPanel();
+		FooterPanel footer = new FooterPanel(this.controller);
 		frame.getContentPane().add(footer, "south,aligny center");
 				
 	}

@@ -8,16 +8,21 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import javax.jws.soap.SOAPBinding.Use;
+
 import authmiddleware.FakeAuthService;
 import models.UserModel;
 import models.FileModel;
 import remoteobjects.FileMetadata;
 import remoteobjects.FileProxy;
+import remoteobjects.RFSCommand;
 import remoteobjects.ResponseLogin;
 
 public class RFSServer {
-	private FakeAuthService _authService = new FakeAuthService();
+	
+	private UserModel user = null;
 	private FileModel fileModel = new FileModel();
+	private FakeAuthService _authService = new FakeAuthService();
 	public ArrayList<FileProxy> remote_files_opened;
 	
 	public RFSServer() {
@@ -38,6 +43,7 @@ public class RFSServer {
     }
 
     
+    // LOGIN
     public ResponseLogin login(String username, String password) {
     	UserModel user =  this._authService.login(username, password);
     	ResponseLogin response = new ResponseLogin();
@@ -46,6 +52,14 @@ public class RFSServer {
     	if(!availableFiles.isEmpty())
     		response.setAvailableFiles(availableFiles);
     	return response;
+    }
+    
+    // SIGNUP
+    public String signup (String username, String password) throws IOException {
+    	this.user = this._authService.signup(username, password);
+    	if (this.user == null)
+    		return null;
+    	return this.user.getUID();
     }
     
 	public void open(FileProxy file) {

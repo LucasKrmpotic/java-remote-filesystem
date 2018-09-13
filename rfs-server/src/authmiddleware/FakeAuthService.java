@@ -24,7 +24,7 @@ public class FakeAuthService {
         return this.user == null;
     }
 
-    public boolean signup(String username, String password) throws IOException{
+    public UserModel signup(String username, String password) throws IOException{
         this.user = new UserModel(username, password);
         return this.user.create();       
     }
