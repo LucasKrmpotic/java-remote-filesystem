@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public class UserModel {
 
-    private String csvFile = "users.csv";
+    private String csvFile = "src/models/users.csv";
     private String username;
     private String password;
     private String uid;

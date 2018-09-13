@@ -40,14 +40,12 @@ public class RFSServer {
     
     public ResponseLogin login(String username, String password) {
     	UserModel user =  this._authService.login(username, password);
-    	if (user == null) {
-    		return null;
-    	}
     	ResponseLogin response = new ResponseLogin();
     	response.setUserToken(user.getUID());
-    	response.setAvailableFiles(this.getAvailableUserFiles(user.getUID()));
+    	List<FileMetadata> availableFiles = this.getAvailableUserFiles(user.getUID());
+    	if(!availableFiles.isEmpty())
+    		response.setAvailableFiles(availableFiles);
     	return response;
-    	
     }
     
 	public void open(FileProxy file) {
@@ -82,8 +80,8 @@ public class RFSServer {
 		
 	}
 	
-	public List getAvailableUserFiles(String owner) {
-		return (List) this.fileModel.filterByOwner(owner);
+	public List<FileMetadata> getAvailableUserFiles(String owner) {
+		return (List<FileMetadata>) this.fileModel.filterByOwner(owner);
 	}
 	
     

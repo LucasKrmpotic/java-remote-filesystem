@@ -1,17 +1,12 @@
 package server;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.net.ServerSocket;
 import java.net.Socket;
 
 import remoteobjects.RFSCommand;
 
-public class Connection {
+public class Connection extends Thread {
 	static final int BUFER_LENGTH = 1024;
 
     Socket socketCliente;
@@ -22,10 +17,12 @@ public class Connection {
 	public Connection (Socket socket, RFSServer server){
 		this.server = server;
 		try {
+			
 			socketCliente = socket;
 			out = new ObjectOutputStream(socketCliente.getOutputStream());
 			in = new ObjectInputStream(socketCliente.getInputStream());
-//			this.start();
+	
+			this.start();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -36,16 +33,17 @@ public class Connection {
 		System.out.println("Esperando Mensajes ...");
 		
 		Object obj;
-
+		
 		try {
-
 			while((obj = in.readObject()) != null){
 
+				System.out.println("llego peticion...");
 				RFSCommand request = (RFSCommand) obj;
 				try {					
 					RFSCommand response = request.exec(
 						this.server
 					);
+					System.out.println("sale respuesta...");
 					out.writeObject(response);
 
 				} catch (Exception e) {
@@ -56,7 +54,10 @@ public class Connection {
 					out.writeObject(response);
 				}
 
-			} 
+			}
+			out.close();
+			in.close();
+			socketCliente.close();
 
 		} catch (Exception e) {
 			//TODO: handle exception

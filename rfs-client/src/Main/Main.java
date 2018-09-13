@@ -1,6 +1,7 @@
 package Main;
 
 import java.awt.EventQueue;
+import java.io.IOException;
 
 import client.RFSClient;
 import controllers.MainController;
@@ -20,7 +21,12 @@ public class Main {
 	
 	public static RFSClient getModel() {
 		if (model == null)
-			model = new RFSClient();
+			try {
+				model = new RFSClient();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		return model;
 	}
 	

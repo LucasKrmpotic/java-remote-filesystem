@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,56 +14,47 @@ import remoteobjects.ResponseLogin;
 
 public class RFSClient {
 
-	public ClientStub stub;
+	private static ClientStub stub;
+	private String user_token;
 	public ArrayList<FileProxy> remote_files_opened; 
 	private List<FileMetadata> availableFiles;
 	
-	public RFSClient(){		
+	public RFSClient() throws UnknownHostException, IOException{	
+//		this.stub = new ClientStub("localhost", 7896);
 		this.remote_files_opened = new ArrayList<FileProxy>();
 	}
 	
-	public void setStub(String hostname, String port) {
-		try {
-			this.stub = new ClientStub(hostname, Integer.parseInt(port.trim()));
-		} catch (NumberFormatException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 
 	// CONNECT	
-	public void connect(String hostname, String port) {
-		try {
-			this.stub = new ClientStub(hostname, Integer.parseInt(port));
-		} catch (NumberFormatException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println(this.stub==null);
+	public void connect(String hostname, String port) throws NumberFormatException, UnknownHostException, IOException, Exception {
+		stub = this.getStub(hostname, Integer.parseInt(port));
 	}	
 
+	public ClientStub getStub(String hostname, int port) throws UnknownHostException, IOException {
+		if(stub == null) {
+			stub = new ClientStub(hostname, port);
+		}
+		return stub;
+	}
 	
 	// LOGIN	
-	public void login(String username, String password){
-		try {
-			this.stub.login(username, password);
-		} catch (ClassNotFoundException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void login(String username, String password) throws ClassNotFoundException, IOException{
+		
+		ResponseLogin response = stub.login(username, password);
+		this.setUserToken(response.getUserToken());
+		List<FileMetadata> availableFiles = response.getAvailableFiles();
+		if(!availableFiles.isEmpty())
+			this.setAvailableFiles(response.getAvailableFiles());
 	}
 	
 	// CREATE AN ACCOUNT
 	public void signUp(String username, String password) {
-		this.stub.signUp(username, password);
+		stub.signUp(username, password);
 	}
-
-	
-	
 	
 	public void open(String file_name) throws ClassNotFoundException, IOException, Exception {
 		
-		FileProxy file = this.stub.rfs_open(file_name);
+		FileProxy file = stub.rfs_open(file_name);
 		
 		System.out.println(file.getFileName());
 		remote_files_opened.add(file);
@@ -71,7 +63,7 @@ public class RFSClient {
 	public void read(FileProxy file) throws ClassNotFoundException, Exception {
 		byte[] buffer = new byte[1024];
 
-	    int count = this.stub.rfs_read(file, buffer);
+	    int count = stub.rfs_read(file, buffer);
 		String path = "cliente-"+ file.getFileName(); 
 		File f = new File(path);
 		f.createNewFile();
@@ -90,7 +82,7 @@ public class RFSClient {
 			FileInputStream fi = new FileInputStream(f);
 			int count = fi.read(buffer);
 
-			this.stub.rfs_wrtite(file_name, buffer, count);
+			stub.rfs_wrtite(file_name, buffer, count);
 		}		
 	}
 	
@@ -100,6 +92,20 @@ public class RFSClient {
 	
 	public List<FileMetadata> getAvailableFiles(){
 		return this.availableFiles;
+	}
+	
+	public String getUserToken() {
+		return this.user_token;
+	}
+	
+	public void setUserToken(String token) {
+		this.user_token = token;
+	}
+	
+	public void setAvailableFiles(List<FileMetadata> files) {
+		if (this.availableFiles.isEmpty()) {
+			availableFiles = new ArrayList<FileMetadata>(files);
+		}
 	}
 	
 }

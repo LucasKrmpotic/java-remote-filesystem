@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import remoteobjects.FileMetadata;
 
 public class FileModel {
-	String csvFile = "files.csv";
+	String csvFile = "src/models/files.csv";
 	
 	public FileModel() {
 		

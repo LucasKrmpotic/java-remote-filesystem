@@ -7,6 +7,8 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import org.omg.CORBA.portable.OutputStream;
+
 import remoteobjects.FileMetadata;
 import remoteobjects.FileProxy;
 import remoteobjects.RFSCommand;
@@ -20,23 +22,23 @@ import remoteobjects.ResponseRead;
 import java.lang.System;
 
 public class ClientStub {
-	private Socket s;
-	ObjectInputStream in;
-	ObjectOutputStream out;
-
+	private static Socket socket = null;
+	private static ObjectInputStream in = null;
+	private static ObjectOutputStream out = null;
+	
 	public String archivo_remoto;
 
 	public ClientStub(String hostname, int port) throws UnknownHostException, IOException {
 
-		s = new Socket(hostname, port);
-		in = new ObjectInputStream(s.getInputStream());
-		out = new ObjectOutputStream(s.getOutputStream());
+		socket = this.getSocket(hostname, port);		
+		in = this.getInputStream(socket);
+		out = this.getOutputStream(socket);
+
 	}
 
 	
 	// LOGIN	
 	public ResponseLogin login(String username, String password) throws IOException, ClassNotFoundException {
-		System.out.println(username);
 		RequestLogin request = new RequestLogin(username, password);
 		out.writeObject(request);
 		RFSCommand response = (RFSCommand) in.readObject();
@@ -111,5 +113,28 @@ public class ClientStub {
 //		RFSClose archivo = (RFSClose) in.readObject();
 
 		// return archivo.cerrado;
+	}
+	
+	
+	
+	
+	public Socket getSocket(String hostname, int port) throws UnknownHostException, IOException {
+		if(this.socket == null)
+			this.socket = new Socket(hostname, port);
+		return this.socket; 
+	}
+	
+	public ObjectOutputStream getOutputStream(Socket socket) throws IOException {
+		if (this.out == null) {
+			this.out = new ObjectOutputStream(socket.getOutputStream());
+		}
+		return this.out;
+	}
+	
+	public ObjectInputStream getInputStream(Socket socket) throws IOException {
+		if(this.in == null) {
+			this.in = new ObjectInputStream(socket.getInputStream());
+		}
+		return this.in;
 	}
 }

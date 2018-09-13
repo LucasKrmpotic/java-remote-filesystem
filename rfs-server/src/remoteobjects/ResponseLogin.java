@@ -8,11 +8,16 @@ public class ResponseLogin extends RFSCommand{
 	private static final long serialVersionUID = 1L;
 	public List<FileMetadata> availableFiles;
 	
-	public void setAvailableFiles(List<FileMetadata> files) {
-		if (availableFiles.isEmpty()) {
-			availableFiles = new ArrayList<FileMetadata>(files);
-		}
+	public ResponseLogin() {
+		this.availableFiles = new ArrayList<FileMetadata>();
 	}
-		
+	
+	public void setAvailableFiles(List<FileMetadata> files) {
+		availableFiles = new ArrayList<FileMetadata>(files);		
+	}
+	
+	public List<FileMetadata> getAvailableFiles(){
+		return this.availableFiles;
+	}
 	
 }

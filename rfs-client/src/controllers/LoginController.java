@@ -4,7 +4,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 import client.RFSClient;
+import ui.ErrorPanel;
 import ui.LoginPanel;
 
 
@@ -26,8 +30,14 @@ public class LoginController implements ActionListener {
 		
 		String username = this.view.getUsername();
 		String password = this.view.getPassword();
-		this.model.login(username, password);
-		
+		try {
+			
+			this.model.login(username, password);
+			JOptionPane.showMessageDialog(new JFrame(), "Login succeded", "Conection Success!!", JOptionPane.INFORMATION_MESSAGE);
+			
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(new ErrorPanel(e.toString()), e.toString(), "Conection Error", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 	
