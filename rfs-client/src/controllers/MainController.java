@@ -6,8 +6,11 @@ import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import client.RFSClient;
 import ui.ConnectionPanel;
@@ -20,9 +23,15 @@ public class MainController implements ActionListener{
 	
 	MainUI ui; 
 	RFSClient client_model;
+	private JTextField txtFiletext;
+	private JButton btnTransferirArchivos;
 	
 	
 	public MainController() {}
+	
+	public JTextField gettxtFiletext() {
+		return this.txtFiletext;
+	}
 	
 	public void setModel(RFSClient model) {
 		this.client_model = model;
@@ -83,13 +92,30 @@ public class MainController implements ActionListener{
 	
 	
 	public void showRemoteFilesPanel() {
-		RemoteFilesController remoteFilesController = new RemoteFilesController(this.getModel());
-		RemoteFilesPanel filesPanel = new RemoteFilesPanel(remoteFilesController); 
-		remoteFilesController.setView(filesPanel);
-		
-		this.ui.getContentPanel().removeAll();
-		this.ui.getContentPanel().add(filesPanel, "cell 1 0,grow");
-		this.ui.getContentPanel().revalidate();
+		this.ui.getContentPanel().setVisible(true);
+//		RemoteFilesController remoteFilesController = new RemoteFilesController(this.getModel());
+//		
+//		this.ui.getContentPanel().removeAll();
+//		JPanel rmtPanel = new JPanel();
+//		this.ui.getContentPanel().add(rmtPanel, "cell 1 0,grow");
+//		rmtPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "ARCHIVOS REMOTOS", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Calibri", 1, 14), new java.awt.Color(0, 0, 0)));
+//        
+//		this.txtFiletext = new JTextField();
+//		this.txtFiletext.setText("file_text");
+//		rmtPanel.add(txtFiletext);
+//		this.txtFiletext.setColumns(10);
+//		
+//		this.btnTransferirArchivos = new JButton("Transferir Archivos");
+//		rmtPanel.add(btnTransferirArchivos);
+//		btnTransferirArchivos.addActionListener(this);
+//		btnTransferirArchivos.setActionCommand("showJFC");
+//		
+//		RemoteFilesPanel filesPanel = new RemoteFilesPanel(remoteFilesController); 
+//		remoteFilesController.setView(filesPanel);
+//		this.ui.getContentPanel().add(filesPanel, "cell 1 1,grow");
+//		
+//		
+//		this.ui.getContentPanel().revalidate();
 		
 	}
 	
