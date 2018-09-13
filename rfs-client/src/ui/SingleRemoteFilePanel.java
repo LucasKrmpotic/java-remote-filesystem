@@ -113,7 +113,7 @@ public class SingleRemoteFilePanel extends JDialog{
 				lblLastModified.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
 				panel_5.add(lblLastModified, "cell 0 2,alignx trailing");
 				
-				txtRemoteLastModified = new JTextField(remote_file.getLastModifiedTime().toString());
+				txtRemoteLastModified = new JTextField(remote_file.getLastAccessTime().toString());
 				txtRemoteLastModified.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
 				panel_5.add(txtRemoteLastModified, "cell 1 2,growx");
 				txtRemoteLastModified.setColumns(10);
