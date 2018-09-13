@@ -30,6 +30,7 @@ public class RemoteFilesController implements ActionListener{
 	RemoteFilesPanel view;
 	RFSClient model;
 	List<FileMetadata> files = new ArrayList<FileMetadata>();
+	
 	public RemoteFilesController(RFSClient model) {
 		this.model = model;
 	}
@@ -37,13 +38,16 @@ public class RemoteFilesController implements ActionListener{
 	public void setView(RemoteFilesPanel view) {
 		this.view = view;
 	}
+	public RFSClient getModel() {
+		return this.model;
+	}
 	
 	
 	@Override
 	public void actionPerformed (ActionEvent e) {
 		FileMetadata file = (FileMetadata) this.view.getFile(e.getActionCommand());
 		
-		SingleRemoteFileController controller = new SingleRemoteFileController();
+		SingleRemoteFileController controller = new SingleRemoteFileController(this.getModel());
 		controller.setView(
 			new SingleRemoteFilePanel(new JFrame(), true, file, controller)
 		);

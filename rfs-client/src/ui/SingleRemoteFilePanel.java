@@ -152,11 +152,11 @@ public class SingleRemoteFilePanel extends JDialog{
 				this.RemoteOpen = new JButton("Open");
 				this.RemoteOpen.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
 				panel_6.add(RemoteOpen, "cell 0 0");
-				
+								
 				this.RemoteWrite = new JButton("Write");
 				this.RemoteWrite.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
 				panel_6.add(RemoteWrite, "cell 1 0");
-				
+
 				this.RemoteRead = new JButton("Read");
 				this.RemoteRead.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
 				panel_6.add(RemoteRead, "cell 2 0");
@@ -167,9 +167,13 @@ public class SingleRemoteFilePanel extends JDialog{
 				
 				//Manejo de eventos
 				RemoteOpen.addActionListener(this.controller);
+				RemoteOpen.setActionCommand("rmtOpen");
 				RemoteWrite.addActionListener(this.controller);
+				RemoteWrite.setActionCommand("rmtWrite");
 				RemoteRead.addActionListener(this.controller);
+				RemoteRead.setActionCommand("rmtRead");
 				RemoteClose.addActionListener(this.controller);
+				RemoteClose.setActionCommand("rmtClose");
 				
 				//Panel Derecho
 				
@@ -268,12 +272,18 @@ public class SingleRemoteFilePanel extends JDialog{
 					txtLocalStatus.setColumns(10);
 					
 					//Manejo de Eventos
-					SingleRemoteFileController eventder = new SingleRemoteFileController();
-					LocalOpen.addActionListener(eventder);
-					LocalWrite.addActionListener(eventder);
-					LocalRead.addActionListener(eventder);
-					RemoteClose.addActionListener(eventder);
-	
+					LocalOpen.addActionListener(this.controller);
+					LocalWrite.addActionListener(this.controller);
+					LocalRead.addActionListener(this.controller);
+					LocalClose.addActionListener(this.controller);
+					LocalOpen.setActionCommand("lclOpen");
+					LocalWrite.setActionCommand("lclWrite");
+					LocalRead.setActionCommand("lclRead");
+					LocalClose.setActionCommand("lclClose");
+					
+					SingleRemoteFileController srfc = new SingleRemoteFileController(this.controller.getModel());
+					
+					
 				}
 	}
 
