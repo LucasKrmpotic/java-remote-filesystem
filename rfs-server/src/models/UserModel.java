@@ -19,14 +19,17 @@ public class UserModel {
     }
 
     public UserModel create () throws IOException{
-        if (!this.exists()){
+    	final String NEXT_LINE = "\n" ;
+    	if (!this.exists()){
         	
             FileWriter w = new FileWriter(this.csvFile, true);
             StringBuilder sb = new StringBuilder();
             this.setUID(UUID.randomUUID().toString());
             sb.append(this.getUsername()
             ).append(",").append(this.getPass()
-            ).append(",").append(this.getUID());
+            ).append(",").append(this.getUID()
+            ).append(NEXT_LINE); 
+            
 
             w.append(sb);
             w.close();
