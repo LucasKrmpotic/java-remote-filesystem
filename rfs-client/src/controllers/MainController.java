@@ -2,9 +2,11 @@ package controllers;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 import client.RFSClient;
@@ -94,6 +96,25 @@ public class MainController implements ActionListener{
 	//Agregado del boton ERROR
 	public void botonError() {
 		JOptionPane.showMessageDialog(null, "Hola... Soy un ERROR ");
+	}
+	
+	//Boton del Chooser
+	public void showJFC() {
+		JFileChooser jfc = new JFileChooser();
+		
+
+		jfc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+		int evento = jfc.showOpenDialog(this.ui.getContentPanel());
+		System.out.println(evento);
+		if(evento == JFileChooser.APPROVE_OPTION) {
+			System.out.println("ACEPTAR");
+			File fichero = jfc.getSelectedFile();
+			String file_name = jfc.getName(fichero);
+			System.out.println("Archivo: "+file_name+"   "+"Ruta: "+fichero);
+			this.ui.gettxtFiletext().setText(fichero.getAbsolutePath());
+		}else {
+			System.out.println("CANCELAR");
+		}
 	}
 	
 }
