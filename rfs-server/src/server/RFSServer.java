@@ -44,12 +44,16 @@ public class RFSServer {
     
     // LOGIN
     public ResponseLogin login(String username, String password) {
+    	
     	UserModel user =  this._authService.login(username, password);
+    	
     	ResponseLogin response = new ResponseLogin();
     	response.setUserToken(user.getUID());
+    	
     	List<FileMetadata> availableFiles = this.getAvailableUserFiles(user.getUID());
     	if(!availableFiles.isEmpty())
     		response.setAvailableFiles(availableFiles);
+    	
     	return response;
     }
     

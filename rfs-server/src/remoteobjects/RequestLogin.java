@@ -17,8 +17,10 @@ public class RequestLogin extends RFSCommand{
 	public RFSCommand exec(Object server) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
 		
 		System.out.println("llegó peticion login...");
+		
 		Method method = server.getClass().getMethod("login", String.class, String.class);
         ResponseLogin response = (ResponseLogin) method.invoke(server, this.username, this.password);
+        
         if (response == null) {        	
         	RFSCommand error = new RFSCommand();
         	error.setError(true);

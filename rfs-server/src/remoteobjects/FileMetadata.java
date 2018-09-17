@@ -23,7 +23,8 @@ public class FileMetadata implements Serializable {
     
     public FileMetadata(File f, String file_name) {
         Path path = f.toPath();
-        this.fileName = file_name;
+        
+        this.fileName = file_name.split("/")[2];
         try {            
             BasicFileAttributes attr = Files.readAttributes(path, BasicFileAttributes.class);
             this.creationTime = this._getAttrToString(attr.creationTime());
@@ -70,6 +71,9 @@ public class FileMetadata implements Serializable {
     public FileTime getCreationDate(){
         return this._getAtrrToFileTime(this.creationTime);
     }
+    //Prueba
+    
+    
 
     public FileTime getLastAccessTime(){
         return this._getAtrrToFileTime(this.lastAccessTime);
@@ -81,8 +85,13 @@ public class FileMetadata implements Serializable {
 
     private FileTime _getAtrrToFileTime(String attr) {
         try {
-        	long milis = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(attr).getTime();
-            return FileTime.fromMillis(milis);    
+        	System.out.println("Entre a formatear..");
+        	long milis;
+            milis = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss").parse(attr).getTime();
+            FileTime fileTime = FileTime.fromMillis(milis);
+            System.out.println("Time: " + fileTime.toString());
+            System.out.println("Fin de formateo !");
+            return fileTime;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -91,7 +100,7 @@ public class FileMetadata implements Serializable {
     
     
     private String _getAttrToString(FileTime attr) {
-    	return new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format((attr.toMillis()));
+    	return new SimpleDateFormat("dd-MM-yyyy hh:mm:ss").format((attr.toMillis()));
     }
     
 //    pritave String _getAtrrTo

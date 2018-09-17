@@ -69,13 +69,13 @@ public class SingleRemoteFilePanel extends JDialog{
 		return this.remote_file;
 	}
 	
-	public void setLocalFileMetadata(FileMetadata file) {
-		this.local_file = file;
-	}
+//	public void setLocalFileMetadata(FileMetadata file) {
+//		this.local_file = file;
+//	}
 	
-	public FileMetadata getLocalFileMetadata() {
-		return this.local_file;
-	}
+//	public FileMetadata getLocalFileMetadata() {
+//		return this.local_file;
+//	}
 	
 	private void initialize() {
 		// TODO Auto-generated method stub
@@ -149,35 +149,43 @@ public class SingleRemoteFilePanel extends JDialog{
 				panel_2.add(panel_6, "cell 0 1,grow");
 				panel_6.setLayout(new MigLayout("", "[][][][]", "[]"));
 				
-				this.RemoteOpen = new JButton("Open");
-				this.RemoteOpen.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
-				panel_6.add(RemoteOpen, "cell 0 0");
+//				this.RemoteOpen = new JButton("Open");
+//				this.RemoteOpen.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
+//				panel_6.add(RemoteOpen, "cell 0 0");
 								
-				this.RemoteWrite = new JButton("Write");
-				this.RemoteWrite.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
-				panel_6.add(RemoteWrite, "cell 1 0");
+//				this.RemoteWrite = new JButton("Write");
+//				this.RemoteWrite.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
+//				panel_6.add(RemoteWrite, "cell 1 0");
 
 				this.RemoteRead = new JButton("Read");
 				this.RemoteRead.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
 				panel_6.add(RemoteRead, "cell 2 0");
 				
-				this.RemoteClose = new JButton("Close");
-				this.RemoteClose.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
-				panel_6.add(RemoteClose, "cell 3 0");
+//				this.RemoteClose = new JButton("Close");
+//				this.RemoteClose.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
+//				panel_6.add(RemoteClose, "cell 3 0");
 				
 				//Manejo de eventos
-				RemoteOpen.addActionListener(this.controller);
-				RemoteOpen.setActionCommand("rmtOpen");
-				RemoteWrite.addActionListener(this.controller);
-				RemoteWrite.setActionCommand("rmtWrite");
+//				RemoteOpen.addActionListener(this.controller);
+//				RemoteOpen.setActionCommand("rmtOpen");
+//				RemoteWrite.addActionListener(this.controller);
+//				RemoteWrite.setActionCommand("rmtWrite");
 				RemoteRead.addActionListener(this.controller);
 				RemoteRead.setActionCommand("rmtRead");
-				RemoteClose.addActionListener(this.controller);
-				RemoteClose.setActionCommand("rmtClose");
+//				RemoteClose.addActionListener(this.controller);
+//				RemoteClose.setActionCommand("rmtClose");
 				
-				//Panel Derecho
+				//Panel Derecho//	public FileMetadata lookUpLocalCopy(String file_name) {
+//				return new FileMetadata(new File(file_name), file_name);
+//				}
 				
-				this.setLocalFileMetadata(this.controller.lookUpLocalCopy(this.remote_file.getFileName()));
+				this.local_file = this.controller.lookUpLocalCopy(this.remote_file.getFileName());
+				
+				System.out.println(this.local_file);
+				System.out.println(this.local_file.getFileName());
+				System.out.println(this.local_file.getSize());
+				System.out.println(this.local_file.getCreationDate());
+				
 				
 				if(this.local_file != null) {
 					
@@ -215,7 +223,6 @@ public class SingleRemoteFilePanel extends JDialog{
 					panel_3.add(lblLocalFileName, "cell 0 0,alignx trailing");
 					
 					txtLocalFilename = new JTextField(local_file.getFileName());
-					txtLocalFilename.setText("file_name");
 					txtLocalFilename.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
 					panel_3.add(txtLocalFilename, "cell 1 0,growx");
 					
@@ -236,7 +243,6 @@ public class SingleRemoteFilePanel extends JDialog{
 					panel_3.add(lblLastModifiedder, "cell 0 2,alignx trailing");
 					
 					txtLocalLastmodified = new JTextField(local_file.getLastModifiedTime().toString());
-					txtLocalLastmodified.setText("last_modified");
 					txtLocalLastmodified.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
 					panel_3.add(txtLocalLastmodified, "cell 1 2,growx");
 					txtLocalLastmodified.setColumns(10);
@@ -246,7 +252,6 @@ public class SingleRemoteFilePanel extends JDialog{
 					panel_3.add(lblLastAccessTiemeder, "cell 0 3,alignx trailing");
 					
 					txtLocalLastaccesstime = new JTextField(local_file.getLastAccessTime().toString());
-					txtLocalLastaccesstime.setText("last_access_time");
 					txtLocalLastaccesstime.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
 					panel_3.add(txtLocalLastaccesstime, "cell 1 3,growx");
 					txtLocalLastaccesstime.setColumns(10);
@@ -257,7 +262,6 @@ public class SingleRemoteFilePanel extends JDialog{
 					
 					txtLocalCreationDate = new JTextField(local_file.getCreationDate().toString());
 					txtLocalCreationDate.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
-					txtLocalCreationDate.setText("creation_time");
 					panel_3.add(txtLocalCreationDate, "cell 1 4,growx");
 					txtLocalCreationDate.setColumns(10);
 					
