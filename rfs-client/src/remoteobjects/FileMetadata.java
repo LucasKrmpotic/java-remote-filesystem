@@ -41,7 +41,6 @@ public class FileMetadata implements Serializable {
     	this.fileName = "src/controllers/"+filename;
     	File f = new File(this.fileName);
     	Path path = f.toPath();
-    	System.out.println(path);
     	
     	if (f.exists()) {    		
     		try {
@@ -54,7 +53,7 @@ public class FileMetadata implements Serializable {
     			// TODO: handle exception
     		}
     	} else {
-    		System.out.println("no encontro el archivo");
+    		this.fileName = null;
     	}
     }
     

@@ -42,7 +42,10 @@ public class SingleRemoteFileController implements ActionListener {
 	
 	public FileMetadata lookUpLocalCopy(String file_name) {
 		String[] f = file_name.split("/");
-		return new FileMetadata(f[2]);
+		FileMetadata file = new FileMetadata(f[2]);
+		if (file.getFileName() == null)
+			return null;
+		return file;
 	}
 	
 	//Eventos Remotos

@@ -77,6 +77,7 @@ public class RFSClient {
 			if( remote_file != null) {
 				
 				this.write(file, remote_file);
+				this.close();
 			} else {
 				System.out.println("no se pudo abrir el archivo");
 			}
@@ -86,6 +87,26 @@ public class RFSClient {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	// READ FILE FROM SERVER
+	public void readFileFromServer(FileMetadata file) {
+		try {
+			FileProxy remote_file = this.open(file.getFileName(), this.getUserToken());
+			
+			if( remote_file != null) {
+				
+				this.read(remote_file);
+				this.close();
+			} else {
+				System.out.println("no se pudo abrir el archivo");
+			}
+					
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
 	}
 	
 	
@@ -107,12 +128,17 @@ public class RFSClient {
 	public void read(FileProxy file) throws ClassNotFoundException, Exception {
 		byte[] buffer = new byte[1024];
 
-	    int count = stub.rfs_read(file, buffer);
 		String path = "cliente-"+ file.getFileName(); 
 		File f = new File(path);
 		f.createNewFile();
-		FileOutputStream out = new FileOutputStream(f);
-		out.write(buffer, 0, count);	
+		FileOutputStream out = new FileOutputStream(f, true);
+		
+		int count = 0;
+		while ((count = stub.rfs_read(file, buffer)) !=-1) {
+			stub.rfs_read(file, buffer);
+			out.write(buffer);	
+		}
+			
 	}
 	
 	public void write(File file, FileProxy remoteFile) throws ClassNotFoundException, IOException {
@@ -130,7 +156,7 @@ public class RFSClient {
 	}
 	
 	public void close() {
-		
+		System.out.println("Close remote file");
 	}
 	
 	public List<FileMetadata> getAvailableFiles(){

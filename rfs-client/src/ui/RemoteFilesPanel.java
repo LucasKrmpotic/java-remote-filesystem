@@ -100,10 +100,6 @@ public class RemoteFilesPanel extends ScrollPane{
 		if(file == null)
 			return null;
 
-		for (Object item : this.available_remote_files) {
-		    System.out.println(item);
-		}
-		
 		return (FileMetadata) file;
 		
 	}

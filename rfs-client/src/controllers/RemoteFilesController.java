@@ -62,15 +62,13 @@ public class RemoteFilesController implements ActionListener{
 		if(file != null) {
 			SingleRemoteFileController controller = new SingleRemoteFileController(this.getModel());
 			controller.setView(
-			new SingleRemoteFilePanel(new JFrame(), true, file, controller)
-		);
+					new SingleRemoteFilePanel(new JFrame(), true, file, controller)
+			);
 		}
-		System.out.println("llego");
      }
 	
-//	public List<FileMetadata> getAvailableFiles(){
-//		return this.model.getAvailableFiles();
-//	}
+
+
 	
 	public List<FileMetadata> getAvailableFiles(){		
 		return this.getModel().getAvailableFiles();

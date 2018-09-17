@@ -181,12 +181,6 @@ public class SingleRemoteFilePanel extends JDialog{
 				
 				this.local_file = this.controller.lookUpLocalCopy(this.remote_file.getFileName());
 				
-				System.out.println(this.local_file);
-				System.out.println(this.local_file.getFileName());
-				System.out.println(this.local_file.getSize());
-				System.out.println(this.local_file.getCreationDate());
-				
-				
 				if(this.local_file != null) {
 					
 					JPanel panel_1 = new JPanel();

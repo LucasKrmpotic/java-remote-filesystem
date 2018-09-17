@@ -38,8 +38,8 @@ public class FileMetadata implements Serializable {
     }
     
     public FileMetadata(String filename) {
-    	this.fileName = filename;
-    	File f = new File(filename);
+    	this.fileName = "src/controllers/"+filename;
+    	File f = new File(this.fileName);
     	Path path = f.toPath();
     	try {
             BasicFileAttributes attr = Files.readAttributes(path, BasicFileAttributes.class);
