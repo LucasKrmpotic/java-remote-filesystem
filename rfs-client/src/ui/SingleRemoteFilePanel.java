@@ -35,10 +35,7 @@ public class SingleRemoteFilePanel extends JDialog{
 	private JButton RemoteWrite;
 	private JButton RemoteRead;
 	private JButton RemoteClose;
-	private JButton LocalOpen;
 	private JButton LocalWrite;
-	private JButton LocalRead;
-	private JButton LocalClose;
 	
 	private FileMetadata remote_file;
 	private FileMetadata local_file;
@@ -50,10 +47,7 @@ public class SingleRemoteFilePanel extends JDialog{
 		this.controller = controller;
 		this.remote_file = remote_file;
 		
-		//FileMetadata local_file = this.getLocalFileMetadata(this.remote_file.getFileName());
-		//if (local_file != null)
-			//this.local_file = local_file;
-		
+	
 		setSize(900, 400);
 		
 		setLocationRelativeTo(owner);
@@ -69,14 +63,6 @@ public class SingleRemoteFilePanel extends JDialog{
 		return this.remote_file;
 	}
 	
-//	public void setLocalFileMetadata(FileMetadata file) {
-//		this.local_file = file;
-//	}
-	
-//	public FileMetadata getLocalFileMetadata() {
-//		return this.local_file;
-//	}
-	
 	private void initialize() {
 		// TODO Auto-generated method stub
 		
@@ -84,6 +70,14 @@ public class SingleRemoteFilePanel extends JDialog{
 				JPanel panel_2 = new JPanel();
 				this.getContentPane().add(panel_2, "cell 1 0,grow");
 				panel_2.setLayout(new MigLayout("", "[grow][][][grow]", "[grow][grow][][][][][][][][][][][]"));
+				panel_2.setBorder(javax.swing.BorderFactory.createTitledBorder(
+		        		null, 
+		        		"ARCHIVO REMOTO", 
+		        		javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, 
+		        		javax.swing.border.TitledBorder.DEFAULT_POSITION, 
+		        		new java.awt.Font("DejaVu Sans", Font.PLAIN, 18), 
+		        		new java.awt.Color(0, 0, 0))
+		        	);
 				panel_2.setVisible(true);
 				
 				
@@ -147,7 +141,7 @@ public class SingleRemoteFilePanel extends JDialog{
 				
 				JPanel panel_6 = new JPanel();
 				panel_2.add(panel_6, "cell 0 1,grow");
-				panel_6.setLayout(new MigLayout("", "[][][][]", "[]"));
+				panel_6.setLayout(new MigLayout("", "[grow]", "[]"));
 				
 //				this.RemoteOpen = new JButton("Open");
 //				this.RemoteOpen.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
@@ -159,7 +153,7 @@ public class SingleRemoteFilePanel extends JDialog{
 
 				this.RemoteRead = new JButton("Read");
 				this.RemoteRead.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
-				panel_6.add(RemoteRead, "cell 2 0");
+				panel_6.add(RemoteRead, "cell 0 0");
 				
 //				this.RemoteClose = new JButton("Close");
 //				this.RemoteClose.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
@@ -175,17 +169,29 @@ public class SingleRemoteFilePanel extends JDialog{
 //				RemoteClose.addActionListener(this.controller);
 //				RemoteClose.setActionCommand("rmtClose");
 				
-				//Panel Derecho//	public FileMetadata lookUpLocalCopy(String file_name) {
-//				return new FileMetadata(new File(file_name), file_name);
-//				}
+				//Panel Derecho
 				
 				this.local_file = this.controller.lookUpLocalCopy(this.remote_file.getFileName());
+				
+//				System.out.println(this.local_file);
+//				System.out.println(this.local_file.getFileName());
+//				System.out.println(this.local_file.getSize());
+//				System.out.println(this.local_file.getCreationDate());
+//				
 				
 				if(this.local_file != null) {
 					
 					JPanel panel_1 = new JPanel();
 					this.getContentPane().add(panel_1, "cell 1 0,grow");
 					panel_1.setLayout(new MigLayout("", "[grow][][][grow]", "[grow][grow][][][][][][][][][][][]"));
+					panel_1.setBorder(javax.swing.BorderFactory.createTitledBorder(
+			        		null, 
+			        		"ARCHIVO LOCAL", 
+			        		javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, 
+			        		javax.swing.border.TitledBorder.DEFAULT_POSITION, 
+			        		new java.awt.Font("DejaVu Sans", Font.PLAIN, 18), 
+			        		new java.awt.Color(0, 0, 0))
+			        	);
 					panel_1.setVisible(true);
 					
 					JPanel panel_3 = new JPanel();
@@ -193,23 +199,11 @@ public class SingleRemoteFilePanel extends JDialog{
 				
 					JPanel panel_4 = new JPanel();
 					panel_1.add(panel_4, "cell 0 1,grow");
-					panel_4.setLayout(new MigLayout("", "[][][][][]", "[]"));
-					
-					this.LocalOpen = new JButton("Open");
-					this.LocalOpen.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
-					panel_4.add(LocalOpen, "cell 0 0");
+					panel_4.setLayout(new MigLayout("", "[grow]", "[]"));
 					
 					this.LocalWrite = new JButton("Write");
 					this.LocalWrite.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
-					panel_4.add(LocalWrite, "cell 1 0");
-					
-					this.LocalRead = new JButton("Read");
-					this.LocalRead.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
-					panel_4.add(LocalRead, "cell 2 0");
-					
-					this.LocalClose = new JButton("Close");
-					this.LocalClose.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
-					panel_4.add(LocalClose, "cell 3 0");
+					panel_4.add(LocalWrite, "cell 0 0");
 					panel_3.setLayout(new MigLayout("", "[grow][grow]", "[grow][grow][grow][grow][grow][grow]"));
 					
 					JLabel lblLocalFileName = new JLabel("File Name:");
@@ -268,16 +262,8 @@ public class SingleRemoteFilePanel extends JDialog{
 					txtLocalStatus.setText("status");
 					panel_3.add(txtLocalStatus, "cell 1 5,growx");
 					txtLocalStatus.setColumns(10);
-					
-					//Manejo de Eventos
-					LocalOpen.addActionListener(this.controller);
 					LocalWrite.addActionListener(this.controller);
-					LocalRead.addActionListener(this.controller);
-					LocalClose.addActionListener(this.controller);
-					LocalOpen.setActionCommand("lclOpen");
 					LocalWrite.setActionCommand("lclWrite");
-					LocalRead.setActionCommand("lclRead");
-					LocalClose.setActionCommand("lclClose");
 					
 					SingleRemoteFileController srfc = new SingleRemoteFileController(this.controller.getModel());
 					
