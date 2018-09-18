@@ -46,24 +46,23 @@ public class SingleRemoteFileController implements ActionListener {
 	
 	public FileMetadata lookUpLocalCopy(String file_name) {
 		String[] f = file_name.split("/");
-		System.out.println(f);
 		FileMetadata file = new FileMetadata(f[2]);
 		if (file.getFileName() == null)
 			return null;
 		return file;
 	}
 	
-	//Eventos Remotos
+
 	public void rmtRead(FileMetadata remote_file) {
-		System.out.println("entró a read");
-		System.out.println(remote_file.getFileName());
 		this.getModel().readFileFromServer(remote_file);
+		this.view.closez();
 		
 	}
 
 	public void lclWrite(FileMetadata local_file) {
 		File file = new File(local_file.getFileName());
 		this.model.writeFileToServer(file);
+		this.view.closez();
 	}
 
 }

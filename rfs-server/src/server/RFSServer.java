@@ -31,10 +31,10 @@ public class RFSServer {
         this.remote_files_opened = new ArrayList<FileProxy>();
     }
 	
-    public FileProxy getOpenedFile(String id, String file_name){
+    public FileProxy getOpenedFile(FileProxy file){
         FileProxy result = null;
         for (FileProxy f : this.remote_files_opened) {
-            if (f.getFileId().equals(id) && f.getFileName().equals(file_name)){
+            if (f.getFile() == file.getFile()){
                 result = f;
                 break;
             }
@@ -88,33 +88,33 @@ public class RFSServer {
         return null;
     }
 		
-    public int read( FileProxy file) throws IOException{
+    public int read( FileProxy file, long offset) throws IOException{
     	
     	file.fileBufferInitialize();
-    	
         FileInputStream is = new FileInputStream(file.getFile());
-                
-        
+        is.skip(offset);        
         int count = is.read(file.file_buffer);
-        
-        for (int i = 0; i < file.file_buffer.length; i++) {
-			System.out.println((char)file.file_buffer[1]);
-		}
-        
-        
         return count;
         
     }
 	
 	
 	public void write (FileProxy file, int count, byte[] data) throws IOException {		
-		//		file.getFileOutputStream().write(data);
+
 		FileOutputStream out = new FileOutputStream(file.getFile(), true);
 		out.write(data);
 	}
         
 	
-	public void close(String file_name) {
+	public boolean close(FileProxy file) {
+		
+		FileProxy file_to_remove = this.remote_files_opened
+				.stream()
+				.filter(f -> f.getFileId().equals(file.getFileId()))
+				.findFirst()
+				.get();
+		
+		return this.remote_files_opened.remove(file_to_remove);
 		
 	}
 	

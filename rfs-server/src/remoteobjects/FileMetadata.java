@@ -82,12 +82,9 @@ public class FileMetadata implements Serializable {
 
     private FileTime _getAtrrToFileTime(String attr) {
         try {
-        	System.out.println("Entre a formatear..");
         	long milis;
             milis = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss").parse(attr).getTime();
             FileTime fileTime = FileTime.fromMillis(milis);
-            System.out.println("Time: " + fileTime.toString());
-            System.out.println("Fin de formateo !");
             return fileTime;
         } catch (Exception e) {
             e.printStackTrace();
@@ -100,5 +97,4 @@ public class FileMetadata implements Serializable {
     	return new SimpleDateFormat("dd-MM-yyyy hh:mm:ss").format((attr.toMillis()));
     }
     
-//    pritave String _getAtrrTo
 }

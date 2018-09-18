@@ -26,10 +26,6 @@ public class FileProxy implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	private File file;
-
-//	private FileOutputStream fileOutputStream;
-//	private FileInputStream fileInputStream;
-	
 	private String file_name;
     private String owner;
     private String file_id;

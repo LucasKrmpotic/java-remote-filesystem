@@ -34,15 +34,7 @@ public class FileModel {
                 	
                 	File f = new File(dir+file[0]);
 	
-	                	BasicFileAttributes attr = Files.readAttributes(f.toPath(), BasicFileAttributes.class);
-                	
-	                	System.out.println("FileName:"+file[0]);
-	                	System.out.println("Last Modified:"+attr.lastModifiedTime());
-	                	System.out.println("Creation time:"+attr.creationTime());
-	                	System.out.println("Last Acces Time:"+attr.lastAccessTime());
-	                	System.out.println("Tamaño"+attr.size());
-	 
-	                	
+	                	BasicFileAttributes attr = Files.readAttributes(f.toPath(), BasicFileAttributes.class);         	
 	                	files.add(new FileMetadata(dir+file[0]));
                 }
             }

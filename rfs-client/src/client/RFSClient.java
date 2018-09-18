@@ -19,25 +19,25 @@ public class RFSClient {
 	private static ClientStub stub;
 	private String user_token = null;
 	private boolean connected = false;
-	public ArrayList<FileProxy> remote_files_opened; 
+//	public ArrayList<FileProxy> remote_files_opened; 
 	private List<FileMetadata> availableFiles;
 	
 	public RFSClient() throws UnknownHostException, IOException{
-		this.remote_files_opened = new ArrayList<FileProxy>();
+//		this.remote_files_opened = new ArrayList<FileProxy>();
 		this.availableFiles = new ArrayList<FileMetadata>();
 	}
 	
 	
-    public FileProxy getOpenedFile(String id, String file_name){
-        FileProxy result = null;
-        for (FileProxy f : this.remote_files_opened) {
-            if (f.getFileId().equals(id) && f.getFileName().equals(file_name)){
-                result = f;
-                break;
-            }
-        }
-        return result;        
-    }
+//    public FileProxy getOpenedFile(String file_name){
+//        FileProxy result = null;
+//        for (FileProxy f : this.remote_files_opened) {
+//            if (f.getFileName().equals(file_name)){
+//                result = f;
+//                break;
+//            }
+//        }
+//        return result;        
+//    }
 
 	// CONNECT	
 	public void connect(String hostname, String port) throws NumberFormatException, UnknownHostException, IOException, Exception {
@@ -77,7 +77,7 @@ public class RFSClient {
 			if( remote_file != null) {
 				
 				this.write(file, remote_file);
-				this.close();
+				this.close(remote_file);
 			} else {
 				System.out.println("no se pudo abrir el archivo");
 			}
@@ -97,7 +97,7 @@ public class RFSClient {
 			if( remote_file != null) {
 				
 				this.read(remote_file);
-				this.close();
+				this.close(remote_file);
 			} else {
 				System.out.println("no se pudo abrir el archivo");
 			}
@@ -109,19 +109,13 @@ public class RFSClient {
 		}		
 	}
 	
-	
-	
-	
-	
-	
-	
 	public FileProxy open(String file_name, String user_token) throws ClassNotFoundException, IOException, Exception {
 		
 		FileProxy file = stub.rfs_open(file_name, user_token);
 		if (file == null) 
 			return null;
 		
-		this.remote_files_opened.add(file);
+//		this.remote_files_opened.add(file);
 		return file;
 	}
 	
@@ -139,8 +133,10 @@ public class RFSClient {
 		FileOutputStream out = new FileOutputStream(f, true);
 		
 		int count = 0;
-		while ((count = stub.rfs_read(file, buffer)) !=-1) {
-			out.write(buffer);	
+		long offset = 0;
+		while ((count = stub.rfs_read(file, buffer, offset)) !=-1) {
+			offset = offset + count;
+			out.write(buffer, 0, count);	
 		}
 		out.close();
 			
@@ -159,8 +155,12 @@ public class RFSClient {
 		}		
 	}
 	
-	public void close() {
-		System.out.println("Close remote file");
+	public void close(FileProxy remote_file) throws Exception {
+		
+		if (!stub.rfs_close(remote_file)) {
+			throw new Exception("no pudo cerrarse el archivo remoto");
+		}
+		
 	}
 	
 	public List<FileMetadata> getAvailableFiles(){

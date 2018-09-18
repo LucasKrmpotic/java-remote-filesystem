@@ -52,7 +52,6 @@ public class RemoteFilesController implements ActionListener{
 		if(file != null) {
 			SingleRemoteFileController controller = new SingleRemoteFileController(this.getModel());
 			SingleRemoteFilePanel view = new SingleRemoteFilePanel(new JFrame(), true, file, controller);
-//			controller.setView(view);
 		}
      }
 	

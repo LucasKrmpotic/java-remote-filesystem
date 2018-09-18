@@ -241,7 +241,6 @@ public class SingleRemoteFilePanel extends JDialog{
 		}
 	}
 	public FileMetadata getRemoteFileMetadata() {
-		System.out.println("entro al get remote file");
 		return this.remote_file;
 	}
 
@@ -249,10 +248,8 @@ public class SingleRemoteFilePanel extends JDialog{
 		return this.local_file;
 	}
 
-	void closez(){
+	public void closez(){
 		setModal(false);
-		this.dispose();
-		System.out.println("Method Done");
-		
+		this.dispose();	
 	}
 }

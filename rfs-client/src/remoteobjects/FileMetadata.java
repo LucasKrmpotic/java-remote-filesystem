@@ -23,7 +23,7 @@ public class FileMetadata implements Serializable {
     
     public FileMetadata(File f, String file_name) {
         Path path = f.toPath();
-        
+       
         this.fileName = file_name;
         try {            
             BasicFileAttributes attr = Files.readAttributes(path, BasicFileAttributes.class);
@@ -90,8 +90,6 @@ public class FileMetadata implements Serializable {
         	long milis;
             milis = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss").parse(attr).getTime();
             FileTime fileTime = FileTime.fromMillis(milis);
-            System.out.println("Time: " + fileTime.toString());
-            System.out.println("Fin de formateo !");
             return fileTime;
         } catch (Exception e) {
             e.printStackTrace();
@@ -103,6 +101,4 @@ public class FileMetadata implements Serializable {
     private String _getAttrToString(FileTime attr) {
     	return new SimpleDateFormat("dd-MM-yyyy hh:mm:ss").format((attr.toMillis()));
     }
-    
-//    pritave String _getAtrrTo
 }

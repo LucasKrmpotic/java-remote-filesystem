@@ -13,6 +13,7 @@ import org.omg.CORBA.portable.OutputStream;
 import remoteobjects.FileMetadata;
 import remoteobjects.FileProxy;
 import remoteobjects.RFSCommand;
+import remoteobjects.RequestClose;
 import remoteobjects.RequestLogin;
 import remoteobjects.RequestOpen;
 import remoteobjects.RequestRead;
@@ -67,17 +68,18 @@ public class ClientStub {
 	}
 	
 	
-//	public void rfs_open(String file_name) {
-//		System.out.println(file_name);
-//	}
-	
-	
-	public void rfs_write(String file_name) {
-		System.out.println(file_name);
-	}
-	
-	public void rfs_close(String file_name) {
-		System.out.println(file_name);
+	public boolean rfs_close(FileProxy remote_file) throws Exception {
+		
+		RequestClose request = new RequestClose(remote_file);
+		out.writeObject(request);
+		
+		RFSCommand response = (RFSCommand) in.readObject();
+		if (response.error) {
+			return false;
+		}
+		
+		return true;
+		
 	}
 	
 	
@@ -96,18 +98,14 @@ public class ClientStub {
 		return file;
 	}
 
-	public int rfs_read(FileProxy file, byte[] buffer) throws IOException, ClassNotFoundException, Exception {
+	public int rfs_read(FileProxy file, byte[] buffer, long offset) throws IOException, ClassNotFoundException, Exception {
 
-		RequestRead request = new RequestRead(file);
+		RequestRead request = new RequestRead(file, offset);
 		out.writeObject(request);
-
 		ResponseRead response = (ResponseRead) in.readObject();
-
-		if (response.error){
-			throw new Exception(response.getErrorMessaage());
+		if (response.count != -1) {			
+			System.arraycopy(response.data, 0, buffer, 0, response.count);
 		}
-
-		System.arraycopy(response.data, 0, buffer, 0, response.count);
 		return response.count;
 
 	}
