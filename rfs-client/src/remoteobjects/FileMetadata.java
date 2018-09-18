@@ -52,9 +52,9 @@ public class FileMetadata implements Serializable {
     		} catch (Exception e) {
     			// TODO: handle exception
     		}
-    	} else {
+    	}else {
     		this.fileName = null;
-    	}
+    	} 
     }
     
     public String getFileName() {
@@ -87,7 +87,6 @@ public class FileMetadata implements Serializable {
 
     private FileTime _getAtrrToFileTime(String attr) {
         try {
-        	System.out.println("Entre a formatear..");
         	long milis;
             milis = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss").parse(attr).getTime();
             FileTime fileTime = FileTime.fromMillis(milis);

@@ -41,30 +41,10 @@ public class FileProxy implements Serializable{
     public FileProxy(String file_name) throws IOException {
         this.file_name = file_name;
         this.file = new File(this.file_name);
-//        this.fileInputStream =  this.getFileInputStream();
-//        this.fileOutputStream = this.getFileOutputStream();
-//        if (this.exists()) {
-//            this.loadOwner();
-//            this.metadata = new FileMetadata(this.file, this.file_name);
-//        }else {
-//        	this.file.createNewFile();
-//        }
+        if (this.exists()) {            
+            this.metadata = new FileMetadata(this.file, this.file_name);
+    	}
     }
-
-    
-//    public FileOutputStream getFileOutputStream() throws FileNotFoundException {
-//    	if (this.fileOutputStream == null) {
-//    		this.fileOutputStream = new FileOutputStream(this.getFile(), true);
-//    	}
-//    	return this.getFileOutputStream();
-//    }
-    
-//    public FileInputStream getFileInputStream() throws FileNotFoundException {
-//    	if(this.fileInputStream == null) {
-//    		this.fileInputStream = new FileInputStream(this.getFile()); 
-//    	}
-//    	return this.getFileInputStream();
-//    }
     
     public void fileBufferInitialize(){
         if (this.file_buffer == null)

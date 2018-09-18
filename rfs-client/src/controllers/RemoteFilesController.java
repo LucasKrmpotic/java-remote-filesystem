@@ -47,23 +47,12 @@ public class RemoteFilesController implements ActionListener{
 	@Override
 	public void actionPerformed (ActionEvent e) {
 		
-		
 		FileMetadata file = (FileMetadata) this.view.getFile(e.getActionCommand());
-		
-		System.out.println("Nombre Archivo: "+file.getFileName());
-		System.out.println("Creacion: "+file.getCreationDate().toString());
-		System.out.println("Ultimo Acceso: "+file.getLastAccessTime().toString());
-		System.out.println(""+file.getLastModifiedTime().toString());
-		System.out.println("Tamaño: "+file.getSize());
-		System.out.println("Estado:"+file.getStatus());
-		
 
-		
 		if(file != null) {
 			SingleRemoteFileController controller = new SingleRemoteFileController(this.getModel());
-			controller.setView(
-					new SingleRemoteFilePanel(new JFrame(), true, file, controller)
-			);
+			SingleRemoteFilePanel view = new SingleRemoteFilePanel(new JFrame(), true, file, controller);
+//			controller.setView(view);
 		}
      }
 	

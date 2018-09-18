@@ -23,7 +23,7 @@ public class FileMetadata implements Serializable {
     
     public FileMetadata(File f, String file_name) {
         Path path = f.toPath();
-        
+        System.out.println(path);
         this.fileName = file_name.split("/")[2];
         try {            
             BasicFileAttributes attr = Files.readAttributes(path, BasicFileAttributes.class);
@@ -38,7 +38,7 @@ public class FileMetadata implements Serializable {
     }
     
     public FileMetadata(String filename) {
-    	this.fileName = "src/controllers/"+filename;
+    	this.fileName = filename;
     	File f = new File(this.fileName);
     	Path path = f.toPath();
     	try {
@@ -71,9 +71,6 @@ public class FileMetadata implements Serializable {
     public FileTime getCreationDate(){
         return this._getAtrrToFileTime(this.creationTime);
     }
-    //Prueba
-    
-    
 
     public FileTime getLastAccessTime(){
         return this._getAtrrToFileTime(this.lastAccessTime);

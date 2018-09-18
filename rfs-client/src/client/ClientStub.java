@@ -98,7 +98,7 @@ public class ClientStub {
 
 	public int rfs_read(FileProxy file, byte[] buffer) throws IOException, ClassNotFoundException, Exception {
 
-		RequestRead request = new RequestRead(file.getFileId(),file.getFileName());
+		RequestRead request = new RequestRead(file);
 		out.writeObject(request);
 
 		ResponseRead response = (ResponseRead) in.readObject();

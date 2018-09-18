@@ -127,17 +127,22 @@ public class RFSClient {
 	
 	public void read(FileProxy file) throws ClassNotFoundException, Exception {
 		byte[] buffer = new byte[1024];
-
-		String path = "cliente-"+ file.getFileName(); 
+		
+		String[] file_name = file.getFileName().split("/");
+		
+		String path = "cliente-"+ file_name[2]; 
 		File f = new File(path);
-		f.createNewFile();
+		
+		if (!f.exists())
+			f.createNewFile();
+		
 		FileOutputStream out = new FileOutputStream(f, true);
 		
 		int count = 0;
 		while ((count = stub.rfs_read(file, buffer)) !=-1) {
-			stub.rfs_read(file, buffer);
 			out.write(buffer);	
 		}
+		out.close();
 			
 	}
 	
@@ -145,7 +150,6 @@ public class RFSClient {
 		
 		if (file.exists() && !file.isDirectory()){
 
-			System.out.println("existe y no es directorio");
 			byte[] buffer = new byte[1024];
 			
 			FileInputStream fi = new FileInputStream(file);

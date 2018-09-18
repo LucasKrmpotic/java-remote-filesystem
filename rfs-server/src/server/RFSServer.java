@@ -18,6 +18,7 @@ import remoteobjects.FileProxy;
 import remoteobjects.IRFSConstants;
 import remoteobjects.RFSCommand;
 import remoteobjects.ResponseLogin;
+import remoteobjects.ResponseRead;
 
 public class RFSServer {
 	
@@ -87,19 +88,27 @@ public class RFSServer {
         return null;
     }
 		
-    public void read( FileProxy file ) throws IOException{
-
+    public int read( FileProxy file) throws IOException{
+    	
+    	file.fileBufferInitialize();
+    	
         FileInputStream is = new FileInputStream(file.getFile());
-        file.fileBufferInitialize();
+                
+        
         int count = is.read(file.file_buffer);
-        file.setFileLength(count);
-        is.close();
+        
+        for (int i = 0; i < file.file_buffer.length; i++) {
+			System.out.println((char)file.file_buffer[1]);
+		}
+        
+        
+        return count;
         
     }
 	
 	
 	public void write (FileProxy file, int count, byte[] data) throws IOException {		
-//		file.getFileOutputStream().write(data);
+		//		file.getFileOutputStream().write(data);
 		FileOutputStream out = new FileOutputStream(file.getFile(), true);
 		out.write(data);
 	}

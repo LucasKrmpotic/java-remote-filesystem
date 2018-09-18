@@ -17,6 +17,10 @@ public class SingleRemoteFileController implements ActionListener {
 	public SingleRemoteFileController (RFSClient model) {
 		this.model = model;
 	}
+
+	public void setView(SingleRemoteFilePanel view) {
+		this.view = view;
+	}
 	
 	public RFSClient getModel() {
 		return this.model;
@@ -25,23 +29,24 @@ public class SingleRemoteFileController implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String methodName = e.getActionCommand();
-		
+				
         Method method;
-		try {
-			method = this.getClass().getMethod(methodName);
-			method.invoke(this);
-		} catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		if (methodName.equals("rmtRead")) {
+					
+			FileMetadata remote_file = this.view.getRemoteFileMetadata();
+			this.rmtRead(remote_file);
+					
+		} else if (methodName.equals("lclWrite")) {
+
+			FileMetadata local_file = this.view.getLocalFile(); 
+			this.lclWrite(local_file);
 		}
 	}
 
-	public void setView(SingleRemoteFilePanel view) {
-		this.view = view;
-	}
 	
 	public FileMetadata lookUpLocalCopy(String file_name) {
 		String[] f = file_name.split("/");
+		System.out.println(f);
 		FileMetadata file = new FileMetadata(f[2]);
 		if (file.getFileName() == null)
 			return null;
@@ -49,30 +54,16 @@ public class SingleRemoteFileController implements ActionListener {
 	}
 	
 	//Eventos Remotos
-	public void rmtOpen() {
-		System.out.println("HICE UN OPEN REMOTO");
+	public void rmtRead(FileMetadata remote_file) {
+		System.out.println("entró a read");
+		System.out.println(remote_file.getFileName());
+		this.getModel().readFileFromServer(remote_file);
+		
 	}
-	public void rmtRead() {
-		System.out.println("HICE UN READ REMOTO");
-	}
-	public void rmtWrite() {
-		System.out.println("HICE UN WRITE REMOTO");
-	}
-	public void rmtClose() {
-		System.out.println("HICE UN CLOSE REMOTO");
-	}
-	//Eventos Locales
-	public void lclOpen() {
-		System.out.println("HICE UN OPEN LOCAL");
-	}
-	public void lclRead() {
-		System.out.println("HICE UN READ LOCAL");
-	}
-	public void lclWrite() {
-		System.out.println("HICE UN WRITE LOCAL");
-	}
-	public void lclClose() {
-		System.out.println("HICE UN CLOSE LOCAL");
 
+	public void lclWrite(FileMetadata local_file) {
+		File file = new File(local_file.getFileName());
+		this.model.writeFileToServer(file);
 	}
+
 }

@@ -99,7 +99,10 @@ public class RemoteFilesPanel extends ScrollPane{
 			.get();
 		if(file == null)
 			return null;
-
+		
+		System.out.println("no es null");
+		FileMetadata aux = (FileMetadata) file;
+		System.out.println(aux.getFileName());
 		return (FileMetadata) file;
 		
 	}
