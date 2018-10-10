@@ -98,15 +98,22 @@ public class ClientStub {
 		return file;
 	}
 
-	public int rfs_read(FileProxy file, byte[] buffer, long offset) throws IOException, ClassNotFoundException, Exception {
+	public int rfs_read(FileProxy file, byte[] buffer) throws IOException, ClassNotFoundException, Exception {
 
-		RequestRead request = new RequestRead(file, offset);
+		RequestRead request = new RequestRead(file, buffer);
 		out.writeObject(request);
-		ResponseRead response = (ResponseRead) in.readObject();
-		if (response.count != -1) {			
-			System.arraycopy(response.data, 0, buffer, 0, response.count);
+		// ResponseRead response = (ResponseRead) in.readObject();
+		RFSCommand response = (RFSCommand) in.readObject();
+		// if (response.count != -1) {			
+		// 	System.arraycopy(response.data, 0, buffer, 0, response.count);
+		// }
+		
+		if (response.error){
+			System.out.println("error en la respuesta");
+			System.out.println(response.getErrorMessaage());
 		}
-		return response.count;
+		return 1;
+		// return response.count;
 
 	}
 

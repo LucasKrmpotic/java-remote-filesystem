@@ -25,20 +25,36 @@ public class RFSServer {
 	private UserModel user = null;
 	private FileModel fileModel = new FileModel();
 	private FakeAuthService _authService = new FakeAuthService();
-	public ArrayList<FileProxy> remote_files_opened;
+	public List<FileProxy> remote_files_opened;
 	
 	public RFSServer() {
         this.remote_files_opened = new ArrayList<FileProxy>();
     }
 	
     public FileProxy getOpenedFile(FileProxy file){
-        FileProxy result = null;
-        for (FileProxy f : this.remote_files_opened) {
-            if (f.getFile() == file.getFile()){
-                result = f;
-                break;
-            }
-        }
+		FileProxy result = null;
+		System.out.println("Dentro del getOpenedFIle");
+		System.out.println(file.getFileID() + "  "+ file.getFileName());
+        // for (FileProxy f : this.remote_files_opened) {
+        //     if (f.getFileID() == file.getFileID()){
+		// 		result = f;
+        //         break;
+		// 	}
+		// }
+
+		result = (FileProxy)this.remote_files_opened.stream()
+		 	.filter(f -> f.getFileID().equals(file.getFileID()))
+		 	.findFirst()
+		 	.get();
+        
+		if (result == null)
+			System.out.println("nulo");
+		System.out.println("Despues del For");
+		System.out.println(result.getFileName()+ "  "+ result.getFileID());
+		// result = this.remote_files_opened.stream()
+		// 	.filter(f -> f.getFileID() == file.getFileID())
+		// 	.findFirst()
+		// 	.get();
         return result;        
     }
 
@@ -76,9 +92,17 @@ public class RFSServer {
 					file.isOwner(user_token)
 					
 					)|| mode == IRFSConstants.OPEN_O_CREAT) {
-				file.setFileId(UUID.randomUUID().toString());
+				// file.setFileId(UUID.randomUUID().toString());
+
+				System.out.println("Tamaño Antes del ADD"+this.remote_files_opened.size());
 				this.remote_files_opened.add(file);
+				System.out.println("Tamaño Despues del ADD"+this.remote_files_opened.size());
+				
+				System.out.println(file.getFileName());
+				System.out.println(file.getFileID());
+				
 				return file;
+				
 			} 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -86,31 +110,42 @@ public class RFSServer {
 			return null;
 		}        
         return null;
-    }
+	}
+
 		
-    public int read( FileProxy file, long offset) throws IOException{
-    	
-    	file.fileBufferInitialize();
-        FileInputStream is = new FileInputStream(file.getFile());
-        is.skip(offset);        
-        int count = is.read(file.file_buffer);
+    public int read( FileProxy file, byte[] buffer) throws IOException{
+		
+		FileProxy openedFile = this.getOpenedFile(file);
+
+		//openedFile.fileBufferInitialize();
+        int count = openedFile.getFileInputS(openedFile.getFile()).read(buffer);
         return count;
+
+		
+    	// file.fileBufferInitialize();
+        // FileInputStream is = new FileInputStream(file.getFile());
+        // is.skip(offset);        
+        // int count = is.read(file.file_buffer);
+        // return count;
         
     }
 	
 	
 	public void write (FileProxy file, int count, byte[] data) throws IOException {		
 
-		FileOutputStream out = new FileOutputStream(file.getFile(), true);
-		out.write(data);
+		//FileOutputStream out = new FileOutputStream(file.getFile(), true);
+		System.out.println("ID del fileProxy"+file.getFileID());
+
+		FileProxy openedFile = this.getOpenedFile(file);
+		System.out.println(openedFile.getFileID());
+		file.getFileOutputS(openedFile.getFile()).write(data);;
+		//out.write(data);
 	}
-        
-	
 	public boolean close(FileProxy file) {
 		
-		FileProxy file_to_remove = this.remote_files_opened
+		FileProxy file_to_remove = (FileProxy) this.remote_files_opened
 				.stream()
-				.filter(f -> f.getFileId().equals(file.getFileId()))
+				.filter(f -> f.getFileID().equals(file.getFileID()))
 				.findFirst()
 				.get();
 		

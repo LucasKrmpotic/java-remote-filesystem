@@ -8,11 +8,11 @@ import java.lang.System;
 public class RequestRead extends RFSCommand{
     private static final long serialVersionUID = 1L;
     private FileProxy file;
-    private long offset;
+    private byte[] buffer;
     
-    public RequestRead(FileProxy file, long offset){
+    public RequestRead(FileProxy file, byte[] buffer){
         this.file = file;
-        this.offset = offset;
+        this.buffer = buffer;
     }
 
 
@@ -20,12 +20,12 @@ public class RequestRead extends RFSCommand{
     public ResponseRead exec(Object server) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException{
     	
         Method method = server.getClass().getMethod("read", FileProxy.class, long.class);
-        int count = (int) method.invoke(server, this.file, this.offset);
+        int count = (int) method.invoke(server, this.file, this.buffer);
         
         
         ResponseRead response = new ResponseRead(count, file);
         if (count != -1) {        	
-        	System.arraycopy(file.file_buffer, 0, response.data, 0, count);
+        	System.arraycopy(buffer, 0, response.data, 0, count);
         }
         return response;
         

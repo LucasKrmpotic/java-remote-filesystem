@@ -33,14 +33,43 @@ public class FileProxy implements Serializable{
     public byte[] file_buffer;
     private FileMetadata metadata;
     public static final String csvFile = "src/models/fileowners.csv";
-
+    public FileInputStream in;
+    public FileOutputStream out;
+    public String fileID;
+    
+    
     public FileProxy(String file_name) throws IOException {
         this.file_name = file_name;
         this.file = new File(this.file_name);
         if (this.exists()) {            
             this.metadata = new FileMetadata(this.file, this.file_name);
     	}
+        //Inicializo los file input/output stream
+        this.in = null;
+        this.out = null;
+        this.fileID = UUID.randomUUID().toString();
+        
     }
+
+    //GetInput/Output stream
+    public FileInputStream getFileInputS (File f) throws FileNotFoundException {
+        if (this.in == null){
+            this.in = new FileInputStream(f);
+        }
+        return this.in;
+    }
+
+    public FileOutputStream getFileOutputS (File f) throws FileNotFoundException {
+        if (this.out == null){
+            this.out = new FileOutputStream(f);
+        }
+        return this.out;
+    }
+
+    public String getFileID(){
+        return this.fileID;
+    }
+
     
     public void fileBufferInitialize(){
         if (this.file_buffer == null)

@@ -77,7 +77,7 @@ public class RFSClient {
 			if( remote_file != null) {
 				
 				this.write(file, remote_file);
-				this.close(remote_file);
+				//this.close(remote_file);
 			} else {
 				System.out.println("no se pudo abrir el archivo");
 			}
@@ -134,7 +134,7 @@ public class RFSClient {
 		
 		int count = 0;
 		long offset = 0;
-		while ((count = stub.rfs_read(file, buffer, offset)) !=-1) {
+		while ((count = stub.rfs_read(file, buffer)) !=-1) {
 			offset = offset + count;
 			out.write(buffer, 0, count);	
 		}
