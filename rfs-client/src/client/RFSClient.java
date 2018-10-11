@@ -135,7 +135,7 @@ public class RFSClient {
 		int count = 0;
 		long offset = 0;
 		while ((count = stub.rfs_read(file, buffer)) !=-1) {
-			offset = offset + count;
+			//offset = offset + count;
 			out.write(buffer, 0, count);	
 		}
 		out.close();

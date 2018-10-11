@@ -45,26 +45,27 @@ public class FileProxy implements Serializable{
             this.metadata = new FileMetadata(this.file, this.file_name);
     	}
         //Inicializo los file input/output stream
-        this.in = null;
-        this.out = null;
+        this.in = new FileInputStream(this.getFile());;
+        this.out = new FileOutputStream(this.getFile());
         this.fileID = UUID.randomUUID().toString();
         
     }
 
     //GetInput/Output stream
-    public FileInputStream getFileInputS (File f) throws FileNotFoundException {
-        if (this.in == null){
-            this.in = new FileInputStream(f);
-        }
+    public FileInputStream getFileInputS () throws FileNotFoundException {
+        // if (this.in == null){
+        //     this.in = new FileInputStream(this.getFile());
+        // }
         return this.in;
     }
 
-    public FileOutputStream getFileOutputS (File f) throws FileNotFoundException {
-        if (this.out == null){
-            this.out = new FileOutputStream(f);
-        }
+    public FileOutputStream getFileOutputS () throws FileNotFoundException {
+        // if (this.out == null){
+        //     this.out = new FileOutputStream(this.getFile());
+        // }
         return this.out;
     }
+
 
     public String getFileID(){
         return this.fileID;

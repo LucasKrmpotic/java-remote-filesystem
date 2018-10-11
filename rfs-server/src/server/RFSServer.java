@@ -115,10 +115,20 @@ public class RFSServer {
 		
     public int read( FileProxy file, byte[] buffer) throws IOException{
 		
+		System.out.println("NOMBRE:"+ file.getFileName());
 		FileProxy openedFile = this.getOpenedFile(file);
 
 		//openedFile.fileBufferInitialize();
-        int count = openedFile.getFileInputS(openedFile.getFile()).read(buffer);
+		System.out.println("OpenesFile: "+ openedFile.getFile().getName() + " " + openedFile.getFileName());
+		System.out.println("TAMAÑO:"+openedFile.getFileLength());
+		FileInputStream algo = openedFile.getFileInputS();
+		if(algo == null){
+			System.out.println("FILE INPUT STREAM NULL");
+		}
+		int pruebaCount = algo.read(buffer);
+		System.out.println("Count: "+ pruebaCount);
+
+        int count = openedFile.getFileInputS().read(buffer);
         return count;
 
 		
@@ -138,7 +148,7 @@ public class RFSServer {
 
 		FileProxy openedFile = this.getOpenedFile(file);
 		System.out.println(openedFile.getFileID());
-		file.getFileOutputS(openedFile.getFile()).write(data);;
+		file.getFileOutputS().write(data);;
 		//out.write(data);
 	}
 	public boolean close(FileProxy file) {

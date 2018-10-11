@@ -19,7 +19,7 @@ public class RequestRead extends RFSCommand{
     @Override
     public ResponseRead exec(Object server) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException{
     	
-        Method method = server.getClass().getMethod("read", FileProxy.class, long.class);
+        Method method = server.getClass().getMethod("read", FileProxy.class, byte[].class);
         int count = (int) method.invoke(server, this.file, this.buffer);
         
         System.out.println("Count:"+count);

@@ -99,7 +99,8 @@ public class ClientStub {
 	}
 
 	public int rfs_read(FileProxy file, byte[] buffer) throws IOException, ClassNotFoundException, Exception {
-
+		System.out.println("Tamaño de buffer:"+buffer.length);
+		System.out.println("File:"+ file.getFileName());
 		RequestRead request = new RequestRead(file, buffer);
 		out.writeObject(request);
 		// ResponseRead response = (ResponseRead) in.readObject();
